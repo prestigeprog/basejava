@@ -6,7 +6,6 @@ import java.util.Arrays;
 public class ArrayStorage {
     Resume[] storage = new Resume[10000];
     int size = 0;
-    int inc;
 
     void clear() {
         for (int i = 0; i < size - 1; i++) {
@@ -24,11 +23,11 @@ public class ArrayStorage {
     }
 
     Resume get(String uuid) {
-        for (inc = 0; inc < size - 1; ) {
-            if (storage[inc].uuid.equals(uuid)) {
-                return storage[inc];
+        for (int i = 0; i < size - 1; ) {
+            if (storage[i].uuid.equals(uuid)) {
+                return storage[i];
             } else {
-                inc++;
+                i++;
             }
         }
         return null;
