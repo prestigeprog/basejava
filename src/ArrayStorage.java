@@ -30,7 +30,7 @@ public class ArrayStorage {
         for (int i = 0; i < size; i++) {
             if (storage[i].uuid.equals(uuid)) {
                 storage[i] = null;
-                for (int z = 0; z < size - i; z++) {
+                for (int z = i; z < size; z++) {
                     storage[i] = storage[z];
                 }
             }
