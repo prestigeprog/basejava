@@ -7,16 +7,14 @@ public class ArrayStorage {
 
     void clear() {
         for (int i = 0; i < size; i++) {
-            if (storage[i] != null) {
-                storage[i] = null;
-                size = 0;
-            }
+            storage[i] = null;
         }
+        size = 0;
     }
 
     void save(Resume r) {
-            storage[size] = r;
-            size++;
+        storage[size] = r;
+        size++;
     }
 
     Resume get(String uuid) {
@@ -32,16 +30,11 @@ public class ArrayStorage {
         for (int i = 0; i < size; i++) {
             if (storage[i].uuid.equals(uuid)) {
                 storage[i] = null;
-                size--;
+                for (int z = 0; z < size - i; z++) {
+                    storage[i] = storage[z];
+                }
             }
         }
-        Resume[] resumesWithoutNull = new Resume[storage.length];
-        for (int i = 0; i < size; i++) {
-            if (storage[i] != null) {
-                resumesWithoutNull[i] = storage[i];
-            }
-        }
-        storage = resumesWithoutNull;
         size--;
     }
 
@@ -49,7 +42,11 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        return storage;
+        Resume[] resumesOnly = new Resume[size];
+        for (int i = 0; i < size; i++) {
+            resumesOnly[i] = storage[i];
+        }
+        return resumesOnly;
     }
 
     int size() {
