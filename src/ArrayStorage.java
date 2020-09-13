@@ -26,12 +26,12 @@ public class ArrayStorage {
     Resume get(String uuid) {
         for (inc = 0; inc < size - 1; ) {
             if (storage[inc].uuid.equals(uuid)) {
-                break;
+                return storage[inc];
             } else {
                 inc++;
             }
         }
-        return storage[inc];
+        return null;
     }
 
     void delete(String uuid) {
