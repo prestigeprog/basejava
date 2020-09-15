@@ -30,7 +30,7 @@ public class ArrayStorage {
     }
 
     public void save(Resume r) {
-        if (!isPresent(storage, r.getUuid()) && size > storage.length) {
+        if (!isPresent(storage, r.getUuid()) && size < storage.length+1) {
             storage[size] = r;
             size++;
         } else {
