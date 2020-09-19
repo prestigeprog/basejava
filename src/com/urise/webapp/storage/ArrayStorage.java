@@ -8,19 +8,19 @@ import java.util.Arrays;
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    private Resume[] storage = new Resume[10000];
+    private Resume[] storage = new Resume[10_000];
     private int size = 0;
 
     public void clear() {
-        Arrays.fill(storage, null);
+        Arrays.fill(storage, 0, size, null);
         size = 0;
     }
 
-    public void update(Resume r) {
-        if (isPresent(storage, r.getUuid())) {
+    public void update(Resume resume) {
+        if (isPresent(storage, resume.getUuid())) {
             for (int i = 0; i < size; i++) {
-                if (storage[i].getUuid().equals(r.getUuid())) {
-                    storage[i] = r;
+                if (storage[i].getUuid().equals(resume.getUuid())) {
+                    storage[i] = resume;
                 }
             }
         } else {
@@ -29,9 +29,9 @@ public class ArrayStorage {
 
     }
 
-    public void save(Resume r) {
-        if (!isPresent(storage, r.getUuid()) && size < storage.length+1) {
-            storage[size] = r;
+    public void save(Resume resume) {
+        if (!isPresent(storage, resume.getUuid()) && size < storage.length + 1) {
+            storage[size] = resume;
             size++;
         } else {
             System.out.println("ERROR: Storage contains your resume or It is full!");
