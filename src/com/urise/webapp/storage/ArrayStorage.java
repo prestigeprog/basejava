@@ -1,6 +1,7 @@
 package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
+
 import java.util.Arrays;
 
 /**
@@ -16,38 +17,44 @@ public class ArrayStorage {
     }
 
     public void update(Resume resume) {
-        if (getIndexByUuid(resume.getUuid()) != 0) {
-            storage[getIndexByUuid(resume.getUuid())] = resume;
+        int index = getIndexByUuid(resume.getUuid());
+        if (index != -1) {
+            storage[index] = resume;
         } else {
-            System.out.println("ERROR: Storage don't contains your resume!");
+            System.out.println("ERROR: Storage don't contains resume with " + resume.getUuid() + "!");
         }
     }
 
     public void save(Resume resume) {
-        if (getIndexByUuid(resume.getUuid()) == 0 && size < storage.length) {
-            storage[size] = resume;
-            size++;
+        if (getIndexByUuid(resume.getUuid()) == -1) {
+            if (size < storage.length) {
+                storage[size] = resume;
+                size++;
+            } else {
+                System.out.println("ERROR: Storage is full!");
+            }
         } else {
-            System.out.println("ERROR: Storage contains your resume or It is full!");
+            System.out.println("ERROR: Storage contains resume with " + resume.getUuid() + "!");
         }
     }
 
     public Resume get(String uuid) {
-        if (getIndexByUuid(uuid) != 0) {
-            return storage[getIndexByUuid(uuid)];
-        } else {
-            System.out.println("ERROR: Storage don't contains your resume!");
-            return null;
+        int index = getIndexByUuid(uuid);
+        if (index != -1) {
+            return storage[index];
         }
+        System.out.println("ERROR: Storage don't contains resume with " + uuid + "!");
+        return null;
     }
 
     public void delete(String uuid) {
-        if (getIndexByUuid(uuid) != 0) {
-            storage[getIndexByUuid(uuid)] = storage[size - 1];
+        int index = getIndexByUuid(uuid);
+        if (index != -1) {
+            storage[index] = storage[size - 1];
             storage[size - 1] = null;
             size--;
         } else {
-            System.out.println("ERROR: Storage don't contains your resume!");
+            System.out.println("ERROR: Storage don't contains resume with " + uuid + "!");
         }
 
     }
@@ -64,12 +71,12 @@ public class ArrayStorage {
         return size;
     }
 
-    public int getIndexByUuid(String uuid) {
+    private int getIndexByUuid(String uuid) {
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equals(uuid)) {
                 return i;
             }
         }
-        return 0;
+        return -1;
     }
 }
