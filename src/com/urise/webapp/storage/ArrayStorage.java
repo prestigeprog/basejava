@@ -17,7 +17,7 @@ public class ArrayStorage {
     }
 
     public void update(Resume resume) {
-        if (isPresent(storage, resume.getUuid())) {
+        if (getIndexByUuid(resume.getUuid())!= 0) {
             storage[getIndexByUuid(resume.getUuid())] = resume;
         } else {
             System.out.println("ERROR: Storage don't contains your resume!");
@@ -26,7 +26,7 @@ public class ArrayStorage {
     }
 
     public void save(Resume resume) {
-        if (!isPresent(storage, resume.getUuid()) && size < storage.length) {
+        if (getIndexByUuid(resume.getUuid())== 0 && size < storage.length) {
             storage[size] = resume;
             size++;
         } else {
@@ -36,7 +36,7 @@ public class ArrayStorage {
     }
 
     public Resume get(String uuid) {
-        if (isPresent(storage, uuid)) {
+        if (getIndexByUuid(uuid)!= 0) {
             return storage[getIndexByUuid(uuid)];
         } else {
             System.out.println("ERROR: Storage don't contains your resume!");
@@ -45,7 +45,7 @@ public class ArrayStorage {
     }
 
     public void delete(String uuid) {
-        if (isPresent(storage, uuid)) {
+        if (getIndexByUuid(uuid)!= 0) {
             storage[getIndexByUuid(uuid)] = storage[size - 1];
             storage[size - 1] = null;
             size--;
@@ -64,15 +64,6 @@ public class ArrayStorage {
 
     public int size() {
         return size;
-    }
-
-    public static boolean isPresent(Resume[] a, String target) {
-        for (Resume s : a) {
-            if (target.equals(s.getUuid())) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public int getIndexByUuid(String uuid) {
