@@ -17,26 +17,24 @@ public class ArrayStorage {
     }
 
     public void update(Resume resume) {
-        if (getIndexByUuid(resume.getUuid())!= 0) {
+        if (getIndexByUuid(resume.getUuid()) != 0) {
             storage[getIndexByUuid(resume.getUuid())] = resume;
         } else {
             System.out.println("ERROR: Storage don't contains your resume!");
         }
-
     }
 
     public void save(Resume resume) {
-        if (getIndexByUuid(resume.getUuid())== 0 && size < storage.length) {
+        if (getIndexByUuid(resume.getUuid()) == 0 && size < storage.length) {
             storage[size] = resume;
             size++;
         } else {
             System.out.println("ERROR: Storage contains your resume or It is full!");
         }
-
     }
 
     public Resume get(String uuid) {
-        if (getIndexByUuid(uuid)!= 0) {
+        if (getIndexByUuid(uuid) != 0) {
             return storage[getIndexByUuid(uuid)];
         } else {
             System.out.println("ERROR: Storage don't contains your resume!");
@@ -45,7 +43,7 @@ public class ArrayStorage {
     }
 
     public void delete(String uuid) {
-        if (getIndexByUuid(uuid)!= 0) {
+        if (getIndexByUuid(uuid) != 0) {
             storage[getIndexByUuid(uuid)] = storage[size - 1];
             storage[size - 1] = null;
             size--;
@@ -58,6 +56,7 @@ public class ArrayStorage {
     /**
      * @return array, contains only Resumes in storage (without null)
      */
+
     public Resume[] getAll() {
         return Arrays.copyOf(storage, size);
     }
