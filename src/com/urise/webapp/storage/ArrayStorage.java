@@ -18,7 +18,7 @@ public class ArrayStorage {
 
     public void update(Resume resume) {
         if (isPresent(storage, resume.getUuid())) {
-            getResumeInStorage(resume.getUuid()) = resume;
+            storage[getUuidOfResumeInStorage(resume.getUuid())] = resume;
         } else {
             System.out.println("ERROR: Storage don't contains your resume!");
         }
@@ -37,7 +37,7 @@ public class ArrayStorage {
 
     public Resume get(String uuid) {
         if (isPresent(storage, uuid)) {
-            return getResumeInStorage(uuid);
+            return storage[getUuidOfResumeInStorage(uuid)];
         } else {
             System.out.println("ERROR: Storage don't contains your resume!");
             return null;
@@ -46,8 +46,7 @@ public class ArrayStorage {
 
     public void delete(String uuid) {
         if (isPresent(storage, uuid)) {
-            Resume deletedResume = getResumeInStorage(uuid);
-            deletedResume = storage[size - 1];
+            storage[getUuidOfResumeInStorage(uuid)] = storage[size - 1];
             storage[size - 1] = null;
             size--;
         } else {
@@ -76,12 +75,12 @@ public class ArrayStorage {
         return false;
     }
 
-    public Resume getResumeInStorage(String uuid) {
+    public int getUuidOfResumeInStorage(String uuid) {
         for (int i = 0; i < size; i++) {
             if (storage[i].getUuid().equals(uuid)) {
-                return storage[i];
+                return i;
             }
         }
-        return null;
+        return 0;
     }
 }
