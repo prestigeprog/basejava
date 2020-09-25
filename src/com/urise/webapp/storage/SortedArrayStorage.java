@@ -4,7 +4,7 @@ import com.urise.webapp.model.Resume;
 
 import java.util.Arrays;
 
-public class SortedArrayStorage extends AbstractArrayStorage{
+public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
     public void clear() {
@@ -18,6 +18,16 @@ public class SortedArrayStorage extends AbstractArrayStorage{
 
     @Override
     public void save(Resume resume) {
+        storage[size] = resume;
+        for (int i = 1; i < size; i++) {
+            Resume x = storage[i];
+            // Найти место для вставки с помощью бинарного поиска
+            int j = (Arrays.binarySearch(storage, 0, i, x) + 1);
+            // Смещение массива в одну позицию вправо
+            System.arraycopy(storage, j, storage, j + 1, i - j);
+            // Размещение элемента в правильном месте
+            storage[j] = x;
+        }
 
     }
 
