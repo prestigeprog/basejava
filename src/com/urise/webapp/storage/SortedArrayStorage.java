@@ -18,15 +18,23 @@ public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
     public void save(Resume resume) {
-        storage[size] = resume;
-        for (int i = 1; i < size; i++) {
-            Resume x = storage[i];
-            // Найти место для вставки с помощью бинарного поиска
-            int j = (Arrays.binarySearch(storage, 0, i, x) + 1);
-            // Смещение массива в одну позицию вправо
-            System.arraycopy(storage, j, storage, j + 1, i - j);
-            // Размещение элемента в правильном месте
-            storage[j] = x;
+        if (getIndex(resume.getUuid()) == -1) {
+            if (size < STORAGE_LIMIT) {
+                storage[size] = resume;
+                for (int i = 1; i < size; i++) {
+                    Resume x = storage[i];
+                    // Найти место для вставки с помощью бинарного поиска
+                    int j = (Arrays.binarySearch(storage, 0, i, x) + 1);
+                    // Смещение массива в одну позицию вправо
+                    System.arraycopy(storage, j, storage, j + 1, i - j);
+                    // Размещение элемента в правильном месте
+                    storage[j] = x;
+                }
+            } else {
+                System.out.println("ERROR: Storage is full!");
+            }
+        } else {
+            System.out.println("ERROR: Storage contains resume with " + resume.getUuid() + "!");
         }
 
     }
