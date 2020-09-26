@@ -1,4 +1,4 @@
-package com.urise.webapp.model;
+package com.javawebinar.webapp.model;
 
 /**
  * Initial resume class

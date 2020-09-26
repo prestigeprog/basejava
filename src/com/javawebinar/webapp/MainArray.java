@@ -1,7 +1,7 @@
-package com.urise.webapp;
+package com.javawebinar.webapp;
 
-import com.urise.webapp.model.Resume;
-import com.urise.webapp.storage.ArrayStorage;
+import com.javawebinar.webapp.model.Resume;
+import com.javawebinar.webapp.storage.ArrayStorage;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -1,6 +1,6 @@
-package com.urise.webapp.storage;
+package com.javawebinar.webapp.storage;
 
-import com.urise.webapp.model.Resume;
+import com.javawebinar.webapp.model.Resume;
 
 public interface Storage {
 
