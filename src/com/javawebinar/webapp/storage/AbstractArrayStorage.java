@@ -50,6 +50,7 @@ public abstract class AbstractArrayStorage implements Storage {
         int index = getIndex(uuid);
         if (index >= 0) {
             deleteDiff(index);
+            storage[size - 1] = null;
             size--;
         } else {
             System.out.println("ERROR: Storage don't contains resume with " + uuid + "!");
