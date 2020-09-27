@@ -17,13 +17,12 @@ public class ArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected void saveDiff(Resume resume) {
+    protected void saveDiff(Resume resume, int index) {
         storage[size] = resume;
     }
 
     @Override
-    protected void deleteDiff(String uuid) {
-        int index = getIndex(uuid);
+    protected void deleteDiff(int index) {
         storage[index] = storage[size - 1];
         storage[size - 1] = null;
     }

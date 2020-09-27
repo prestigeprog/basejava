@@ -14,15 +14,14 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected void saveDiff(Resume resume) {
-        int index = getIndex(resume.getUuid());
-        System.arraycopy(storage, Math.abs(index) - 1, storage, Math.abs(index), size + 1);
-        storage[Math.abs(index) - 1] = resume;
+    protected void saveDiff(Resume resume, int index) {
+        int posIndex = Math.abs(index);
+        System.arraycopy(storage, posIndex - 1, storage, posIndex, size + 1);
+        storage[posIndex - 1] = resume;
     }
 
     @Override
-    protected void deleteDiff(String uuid) {
-        int index = getIndex(uuid);
+    protected void deleteDiff(int index) {
         System.arraycopy(storage, index + 1, storage, index, size - index);
     }
 }
