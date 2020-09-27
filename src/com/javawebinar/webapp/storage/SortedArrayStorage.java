@@ -15,9 +15,9 @@ public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
     protected void saveDiff(Resume resume, int index) {
-        int posIndex = Math.abs(index);
-        System.arraycopy(storage, posIndex-1, storage, posIndex, storage.length-1);
-        storage[posIndex-1] = resume;
+        int posIndex = Math.abs(index)-1;
+        System.arraycopy(storage, posIndex, storage, posIndex+1, size-posIndex);
+        storage[posIndex] = resume;
     }
 
     @Override
