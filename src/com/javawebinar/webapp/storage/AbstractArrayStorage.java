@@ -1,5 +1,8 @@
 package com.javawebinar.webapp.storage;
 
+import com.javawebinar.webapp.exception.ExistStorageException;
+import com.javawebinar.webapp.exception.NotExistStorageException;
+import com.javawebinar.webapp.exception.StorageException;
 import com.javawebinar.webapp.model.Resume;
 
 import java.util.Arrays;
@@ -19,7 +22,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public void update(Resume resume) {
         int index = getIndex(resume.getUuid());
         if (index < 0) {
-            System.out.println("ERROR: Storage don't contains resume with " + resume.getUuid() + "!");
+            throw new NotExistStorageException(resume.getUuid());
         } else {
             storage[index] = resume;
         }
@@ -28,9 +31,10 @@ public abstract class AbstractArrayStorage implements Storage {
     public void save(Resume resume) {
         int index = getIndex(resume.getUuid());
         if (index >= 0) {
-            System.out.println("ERROR: Storage contains resume with " + resume.getUuid() + "!");
+            throw new ExistStorageException(resume.getUuid());
         } else if (size == STORAGE_LIMIT) {
-            System.out.println("ERROR: Storage is full!");
+            throw new StorageException(resume.getUuid(), "Storage is full!");
+            //System.out.println("ERROR: Storage is full!");
         } else {
             saveDiff(resume, index);
             size++;
@@ -40,8 +44,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public Resume get(String uuid) {
         int index = getIndex(uuid);
         if (index < 0) {
-            System.out.println("ERROR: Storage don't contains resume with " + uuid + "!");
-            return null;
+            throw new NotExistStorageException(uuid);
         }
         return storage[index];
     }
@@ -53,7 +56,7 @@ public abstract class AbstractArrayStorage implements Storage {
             storage[size - 1] = null;
             size--;
         } else {
-            System.out.println("ERROR: Storage don't contains resume with " + uuid + "!");
+            throw new NotExistStorageException(uuid);
         }
     }
 
