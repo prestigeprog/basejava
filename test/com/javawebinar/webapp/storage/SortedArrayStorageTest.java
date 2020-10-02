@@ -1,8 +1,9 @@
 package com.javawebinar.webapp.storage;
 
 public class SortedArrayStorageTest extends AbstractArrayStorageTest{
+    private static final Storage sortedArrayStorage = new SortedArrayStorage();
 
-    public SortedArrayStorageTest(SortedArrayStorage sortedArrayStorage) {
+    public SortedArrayStorageTest() {
         super(sortedArrayStorage);
     }
 }
