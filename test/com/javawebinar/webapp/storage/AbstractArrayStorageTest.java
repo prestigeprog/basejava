@@ -81,13 +81,13 @@ public abstract class AbstractArrayStorageTest {
                 storage.save(new Resume());
                 Assert.fail("Exception not thrown");
             }catch(StorageException e) {
-                throw new StorageException("", "Storage is full!");
+                throw new StorageException("", e.getMessage());
             }
         }
         try{
             storage.save(new Resume());
         }catch(StorageException e) {
-            throw new StorageException("", "Storage is full!");
+            throw new StorageException("", e.getMessage());
         }
     }
 }
