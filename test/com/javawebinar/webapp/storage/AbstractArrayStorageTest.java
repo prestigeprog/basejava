@@ -74,15 +74,15 @@ public abstract class AbstractArrayStorageTest {
         storage.get("dummy");
     }
 
-    @Test
+    @Test (expected = StorageException.class)
     public void storageExceptionTest() {
-        for (int i = 0; i < 9999; i++) {
-            try{
+        try{
+            for (int i = 0; i < 9999; i++) {
                 storage.save(new Resume());
-                Assert.fail("Exception not thrown");
-            }catch(StorageException e) {
-                throw new StorageException("", e.getMessage());
             }
+            Assert.fail("Exception not thrown");
+        }catch(StorageException e) {
+            throw new StorageException("", e.getMessage());
         }
         try{
             storage.save(new Resume());
@@ -90,4 +90,6 @@ public abstract class AbstractArrayStorageTest {
             throw new StorageException("", e.getMessage());
         }
     }
+
+
 }
