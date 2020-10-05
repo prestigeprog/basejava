@@ -1,9 +1,8 @@
 package com.javawebinar.webapp.storage;
 
-public class ArrayStorageTest extends AbstractArrayStorageTest{
-    private static final Storage arrayStorage = new ArrayStorage();
+public class ArrayStorageTest extends AbstractArrayStorageTest {
 
     public ArrayStorageTest() {
-        super(arrayStorage);
+        super(new ArrayStorage());
     }
 }

@@ -34,7 +34,6 @@ public abstract class AbstractArrayStorage implements Storage {
             throw new ExistStorageException(resume.getUuid());
         } else if (size == STORAGE_LIMIT) {
             throw new StorageException(resume.getUuid(), "Storage is full!");
-            //System.out.println("ERROR: Storage is full!");
         } else {
             saveDiff(resume, index);
             size++;
