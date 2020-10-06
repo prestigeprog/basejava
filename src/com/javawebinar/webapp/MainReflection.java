@@ -2,9 +2,15 @@ package com.javawebinar.webapp;
 
 import com.javawebinar.webapp.model.Resume;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 public class MainReflection {
-    public static void main(String[] args) throws IllegalAccessException {
+    public static void main(String[] args) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         Resume r = new Resume();
-        System.out.println(r.getClass().toString());
+        Method method = r.getClass().getDeclaredMethod("toString");
+        method.setAccessible(true);
+        System.out.println(method.invoke(r));
     }
 }
+
