@@ -7,8 +7,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
-
 import static com.javawebinar.webapp.storage.AbstractArrayStorage.STORAGE_LIMIT;
 
 public abstract class AbstractArrayStorageTest {
@@ -37,7 +35,7 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     public void update() {
-        Resume resume = new Resume("uuid1");
+        Resume resume = new Resume(UUID_1);
         storage.update(resume);
         Assert.assertEquals(resume, storage.get(UUID_1));
     }
@@ -79,12 +77,8 @@ public abstract class AbstractArrayStorageTest {
 
     @Test
     public void getAll() {
-        Resume[] resumes = new Resume[STORAGE_LIMIT];
-        resumes[0] = new Resume(UUID_1);
-        resumes[1] = new Resume(UUID_2);
-        resumes[2] = new Resume(UUID_3);
-        Resume[] expResumes = Arrays.copyOfRange(resumes, 0, 3);
-        Assert.assertArrayEquals(expResumes, storage.getAll());
+        Resume[] resumes = {new Resume(UUID_1), new Resume(UUID_2), new Resume(UUID_3)};
+        Assert.assertArrayEquals(resumes, storage.getAll());
     }
 
     @Test
