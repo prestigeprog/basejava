@@ -1,5 +1,6 @@
 package com.javawebinar.webapp.storage;
 
+import com.javawebinar.webapp.exception.ExistStorageException;
 import com.javawebinar.webapp.exception.NotExistStorageException;
 import com.javawebinar.webapp.exception.StorageException;
 import com.javawebinar.webapp.model.Resume;
@@ -53,6 +54,12 @@ public abstract class AbstractArrayStorageTest {
         Assert.assertEquals(4, storage.size());
     }
 
+    @Test(expected = ExistStorageException.class)
+    public void saveExist() {
+        Resume resume = new Resume(UUID_1);
+        storage.save(resume);
+    }
+
     @Test
     public void get() {
         Assert.assertEquals(new Resume(UUID_1), storage.get(UUID_1));
@@ -66,8 +73,8 @@ public abstract class AbstractArrayStorageTest {
     @Test(expected = NotExistStorageException.class)
     public void delete() {
         storage.delete(UUID_1);
-        storage.get(UUID_1);
         Assert.assertEquals(2, storage.size());
+        storage.get(UUID_1);
     }
 
     @Test(expected = NotExistStorageException.class)
