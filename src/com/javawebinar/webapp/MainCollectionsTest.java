@@ -28,7 +28,6 @@ public class MainCollectionsTest {
         System.out.println("Get r1: " + storage.get(RESUME_1.getUuid()));
         System.out.println("Size: " + storage.size());
 
-        System.out.println("Get dummy: " + storage.get("dummy"));
 
         printAll();
         storage.delete(RESUME_1.getUuid());

@@ -9,7 +9,7 @@ import java.util.Iterator;
 
 public abstract class AbstractStorage implements Storage {
     protected Collection<Resume> collection;
-    Iterator<Resume> iterator = collection.iterator();
+
 
     public AbstractStorage(Collection<Resume> collection) {
         this.collection = collection;
@@ -22,6 +22,7 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public void update(Resume resume) {
+        Iterator<Resume> iterator = collection.iterator();
         if (!collection.contains(resume)) {
             throw new NotExistStorageException(resume.getUuid());
         } else {
@@ -46,12 +47,15 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public Resume get(String uuid) {
-        Resume tmp = null;
-        while (iterator.hasNext()) {
-            if (iterator.next().getUuid().equals(uuid)) {
-                tmp = iterator.next();
-            } else {
-                throw new NotExistStorageException(uuid);
+        Iterator<Resume> iterator = collection.iterator();
+        Resume tmp = new Resume(uuid);
+        if(!collection.contains(tmp)) {
+            throw new NotExistStorageException(uuid);
+        }else {
+            while (iterator.hasNext()) {
+                if (iterator.next().getUuid().equals(uuid)) {
+                    tmp = iterator.next();
+                }
             }
         }
         return tmp;
@@ -59,11 +63,15 @@ public abstract class AbstractStorage implements Storage {
 
     @Override
     public void delete(String uuid) {
-        while (iterator.hasNext()) {
-            if (iterator.next().getUuid().equals(uuid)) {
-                iterator.remove();
-            } else {
-                throw new NotExistStorageException(uuid);
+        Resume tmp = new Resume(uuid);
+        Iterator<Resume> iterator = collection.iterator();
+        if (!collection.contains(tmp)) {
+            throw new NotExistStorageException(uuid);
+        } else {
+            while (iterator.hasNext()) {
+                if (iterator.next().getUuid().equals(uuid)) {
+                    iterator.remove();
+                }
             }
         }
     }
