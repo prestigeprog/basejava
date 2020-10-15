@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class ListStorage extends AbstractStorage {
 
-    private ArrayList<Resume> storage = new ArrayList<>();
+    private final ArrayList<Resume> storage = new ArrayList<>();
 
     @Override
     public void clear() {
@@ -41,9 +41,8 @@ public class ListStorage extends AbstractStorage {
         if (!storage.contains(tmp)) {
             throw new NotExistStorageException(uuid);
         } else {
-           storage.get(storage.indexOf(tmp));
+            return storage.get(storage.indexOf(tmp));
         }
-        return tmp;
     }
 
     @Override
@@ -52,13 +51,13 @@ public class ListStorage extends AbstractStorage {
         if (!storage.contains(tmp)) {
             throw new NotExistStorageException(uuid);
         } else {
-            storage.remove(storage.indexOf(tmp));
+            storage.remove(tmp);
         }
     }
 
     @Override
     public Resume[] getAll() {
-        return storage.toArray(new Resume[storage.size()]);
+        return storage.toArray(new Resume[0]);
     }
 
     @Override
