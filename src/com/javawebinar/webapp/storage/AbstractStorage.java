@@ -1,21 +1,55 @@
 package com.javawebinar.webapp.storage;
 
+import com.javawebinar.webapp.exception.ExistStorageException;
+import com.javawebinar.webapp.exception.NotExistStorageException;
 import com.javawebinar.webapp.model.Resume;
 
 public abstract class AbstractStorage implements Storage {
 
-    public abstract void clear();
+    public void update(Resume resume) {
+        if (!isContains(resume)) {
+            throw new NotExistStorageException(resume.getUuid());
+        } else {
+            updateDiff(resume);
+        }
+    }
 
-    public abstract void update(Resume resume);
+    public void save(Resume resume) {
+        if (isContains(resume)) {
+            throw new ExistStorageException(resume.getUuid());
+        } else {
+            saveDiff(resume, getIndex(resume.getUuid()));
+        }
 
-    public abstract void save(Resume resume);
+    }
 
-    public abstract Resume get(String uuid);
+    public Resume get(String uuid) {
+        Resume tmp = new Resume(uuid);
+        if (!isContains(tmp)) {
+            throw new NotExistStorageException(uuid);
+        } else {
+            return getDiff(tmp);
+        }
+    }
 
-    public abstract void delete(String uuid);
+    public void delete(String uuid) {
+        Resume tmp = new Resume(uuid);
+        if (!isContains(tmp)) {
+            throw new NotExistStorageException(uuid);
+        } else {
+            deleteDiff(tmp, getIndex(uuid));
+        }
+    }
 
-    public abstract Resume[] getAll();
+    protected abstract boolean isContains(Resume resume);
 
-    public abstract int size();
+    protected abstract void updateDiff(Resume resume);
 
+    protected abstract int getIndex(String uuid);
+
+    protected abstract Resume getDiff(Resume resume);
+
+    protected abstract void saveDiff(Resume resume, int index);
+
+    protected abstract void deleteDiff(Resume resume, int index);
 }

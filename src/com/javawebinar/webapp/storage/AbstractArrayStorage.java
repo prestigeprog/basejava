@@ -7,7 +7,7 @@ import com.javawebinar.webapp.model.Resume;
 
 import java.util.Arrays;
 
-public abstract class AbstractArrayStorage implements Storage {
+public abstract class AbstractArrayStorage extends AbstractStorage {
 
     protected static final int STORAGE_LIMIT = 10000;
 
@@ -19,44 +19,39 @@ public abstract class AbstractArrayStorage implements Storage {
         size = 0;
     }
 
-    public void update(Resume resume) {
-        int index = getIndex(resume.getUuid());
-        if (index < 0) {
-            throw new NotExistStorageException(resume.getUuid());
-        } else {
-            storage[index] = resume;
-        }
-    }
-
     public void save(Resume resume) {
-        int index = getIndex(resume.getUuid());
-        if (index >= 0) {
+        if (isContains(resume)) {
             throw new ExistStorageException(resume.getUuid());
         } else if (size == STORAGE_LIMIT) {
             throw new StorageException(resume.getUuid(), "Storage is full!");
         } else {
-            saveDiff(resume, index);
+            saveDiff(resume, getIndex(resume.getUuid()));
             size++;
         }
     }
 
-    public Resume get(String uuid) {
-        int index = getIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        }
-        return storage[index];
-    }
-
     public void delete(String uuid) {
-        int index = getIndex(uuid);
-        if (index >= 0) {
-            deleteDiff(index);
+        if (isContains(new Resume(uuid))) {
+            deleteDiff(new Resume(uuid), getIndex(uuid));
             storage[size - 1] = null;
             size--;
         } else {
             throw new NotExistStorageException(uuid);
         }
+    }
+
+    protected Resume getDiff(Resume resume) {
+        return storage[getIndex(resume.getUuid())];
+    }
+
+    protected boolean isContains(Resume resume) {
+        int index = getIndex(resume.getUuid());
+        return index >= 0;
+    }
+
+    @Override
+    protected void updateDiff(Resume resume) {
+        storage[getIndex(resume.getUuid())] = resume;
     }
 
     public Resume[] getAll() {
@@ -71,6 +66,6 @@ public abstract class AbstractArrayStorage implements Storage {
 
     protected abstract void saveDiff(Resume resume, int index);
 
-    protected abstract void deleteDiff(int index);
+    protected abstract void deleteDiff(Resume resume, int index);
 
 }

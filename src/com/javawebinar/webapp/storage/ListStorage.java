@@ -1,7 +1,5 @@
 package com.javawebinar.webapp.storage;
 
-import com.javawebinar.webapp.exception.ExistStorageException;
-import com.javawebinar.webapp.exception.NotExistStorageException;
 import com.javawebinar.webapp.model.Resume;
 
 import java.util.ArrayList;
@@ -16,46 +14,6 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public void update(Resume resume) {
-        if (!storage.contains(resume)) {
-            throw new NotExistStorageException(resume.getUuid());
-        } else {
-            storage.remove(resume);
-            storage.add(resume);
-        }
-    }
-
-    @Override
-    public void save(Resume resume) {
-        if (storage.contains(resume)) {
-            throw new ExistStorageException(resume.getUuid());
-        } else {
-            storage.add(resume);
-        }
-
-    }
-
-    @Override
-    public Resume get(String uuid) {
-        Resume tmp = new Resume(uuid);
-        if (!storage.contains(tmp)) {
-            throw new NotExistStorageException(uuid);
-        } else {
-            return storage.get(storage.indexOf(tmp));
-        }
-    }
-
-    @Override
-    public void delete(String uuid) {
-        Resume tmp = new Resume(uuid);
-        if (!storage.contains(tmp)) {
-            throw new NotExistStorageException(uuid);
-        } else {
-            storage.remove(tmp);
-        }
-    }
-
-    @Override
     public Resume[] getAll() {
         return storage.toArray(new Resume[0]);
     }
@@ -63,5 +21,36 @@ public class ListStorage extends AbstractStorage {
     @Override
     public int size() {
         return storage.size();
+    }
+
+    @Override
+    public boolean isContains(Resume resume) {
+        return storage.contains(resume);
+    }
+
+    @Override
+    protected void updateDiff(Resume resume) {
+        storage.remove(resume);
+        storage.add(resume);
+    }
+
+    @Override
+    protected int getIndex(String uuid) {
+        return 0;
+    }
+
+    @Override
+    protected void saveDiff(Resume resume, int index) {
+        storage.add(resume);
+    }
+
+    @Override
+    protected void deleteDiff(Resume resume, int index) {
+        storage.remove(resume);
+    }
+
+    @Override
+    protected Resume getDiff(Resume resume) {
+        return storage.get(storage.indexOf(resume));
     }
 }
