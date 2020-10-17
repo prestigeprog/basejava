@@ -1,7 +1,6 @@
 package com.javawebinar.webapp.storage;
 
 import com.javawebinar.webapp.exception.ExistStorageException;
-import com.javawebinar.webapp.exception.NotExistStorageException;
 import com.javawebinar.webapp.exception.StorageException;
 import com.javawebinar.webapp.model.Resume;
 
@@ -20,23 +19,12 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     public void save(Resume resume) {
-        if (isContains(resume)) {
+        if (isContains(resume.getUuid())) {
             throw new ExistStorageException(resume.getUuid());
         } else if (size == STORAGE_LIMIT) {
             throw new StorageException(resume.getUuid(), "Storage is full!");
         } else {
             saveDiff(resume, getIndex(resume.getUuid()));
-            size++;
-        }
-    }
-
-    public void delete(String uuid) {
-        if (isContains(new Resume(uuid))) {
-            deleteDiff(new Resume(uuid), getIndex(uuid));
-            storage[size - 1] = null;
-            size--;
-        } else {
-            throw new NotExistStorageException(uuid);
         }
     }
 
@@ -44,8 +32,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return storage[getIndex(resume.getUuid())];
     }
 
-    protected boolean isContains(Resume resume) {
-        int index = getIndex(resume.getUuid());
+    protected boolean isContains(String uuid) {
+        int index = getIndex(uuid);
         return index >= 0;
     }
 
@@ -61,11 +49,4 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     public int size() {
         return size;
     }
-
-    protected abstract int getIndex(String uuid);
-
-    protected abstract void saveDiff(Resume resume, int index);
-
-    protected abstract void deleteDiff(Resume resume, int index);
-
 }

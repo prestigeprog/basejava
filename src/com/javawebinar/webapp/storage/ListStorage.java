@@ -24,8 +24,9 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public boolean isContains(Resume resume) {
-        return storage.contains(resume);
+    public boolean isContains(String uuid) {
+        Resume tmp = new Resume(uuid);
+        return storage.contains(tmp);
     }
 
     @Override
@@ -36,7 +37,8 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected int getIndex(String uuid) {
-        return 0;
+        Resume tmp = new Resume(uuid);
+        return storage.indexOf(tmp);
     }
 
     @Override
@@ -46,7 +48,7 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected void deleteDiff(Resume resume, int index) {
-        storage.remove(resume);
+        storage.remove(index);
     }
 
     @Override

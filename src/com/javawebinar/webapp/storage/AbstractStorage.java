@@ -7,7 +7,7 @@ import com.javawebinar.webapp.model.Resume;
 public abstract class AbstractStorage implements Storage {
 
     public void update(Resume resume) {
-        if (!isContains(resume)) {
+        if (!isContains(resume.getUuid())) {
             throw new NotExistStorageException(resume.getUuid());
         } else {
             updateDiff(resume);
@@ -15,7 +15,7 @@ public abstract class AbstractStorage implements Storage {
     }
 
     public void save(Resume resume) {
-        if (isContains(resume)) {
+        if (isContains(resume.getUuid())) {
             throw new ExistStorageException(resume.getUuid());
         } else {
             saveDiff(resume, getIndex(resume.getUuid()));
@@ -24,24 +24,22 @@ public abstract class AbstractStorage implements Storage {
     }
 
     public Resume get(String uuid) {
-        Resume tmp = new Resume(uuid);
-        if (!isContains(tmp)) {
+        if (!isContains(uuid)) {
             throw new NotExistStorageException(uuid);
         } else {
-            return getDiff(tmp);
+            return getDiff(new Resume(uuid));
         }
     }
 
     public void delete(String uuid) {
-        Resume tmp = new Resume(uuid);
-        if (!isContains(tmp)) {
+        if (!isContains(uuid)) {
             throw new NotExistStorageException(uuid);
         } else {
-            deleteDiff(tmp, getIndex(uuid));
+            deleteDiff(new Resume(uuid), getIndex(uuid));
         }
     }
 
-    protected abstract boolean isContains(Resume resume);
+    protected abstract boolean isContains(String uuid);
 
     protected abstract void updateDiff(Resume resume);
 

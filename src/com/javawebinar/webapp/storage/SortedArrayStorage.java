@@ -17,10 +17,13 @@ public class SortedArrayStorage extends AbstractArrayStorage {
         int posIndex = Math.abs(index) - 1;
         System.arraycopy(storage, posIndex, storage, posIndex + 1, size - posIndex);
         storage[posIndex] = resume;
+        size++;
     }
 
     @Override
     protected void deleteDiff(Resume resume, int index) {
         System.arraycopy(storage, index + 1, storage, index, size - index - 1);
+        storage[size - 1] = null;
+        size--;
     }
 }
