@@ -55,4 +55,9 @@ public class ListStorage extends AbstractStorage {
     protected Resume getDiff(Resume resume) {
         return storage.get(storage.indexOf(resume));
     }
+
+    @Override
+    protected boolean storageOverflow() {
+        return false;
+    }
 }
