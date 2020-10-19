@@ -1,5 +1,8 @@
 package com.javawebinar.webapp.storage;
 
+import com.javawebinar.webapp.exception.ExistStorageException;
+import com.javawebinar.webapp.exception.NotExistStorageException;
+import com.javawebinar.webapp.exception.StorageException;
 import com.javawebinar.webapp.model.Resume;
 
 import java.util.Arrays;
@@ -16,18 +19,38 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         size = 0;
     }
 
-    protected Resume getDiff(Resume resume) {
-        return storage[getIndex(resume.getUuid())];
+    @Override
+    public void save(Resume resume) {
+        int index = getIndex(resume.getUuid());
+        if (index >= 0) {
+            throw new ExistStorageException(resume.getUuid());
+        } else if (size == STORAGE_LIMIT) {
+            throw new StorageException(resume.getUuid(), "Storage is full!");
+        } else {
+            saveDiff(resume, index);
+            size++;
+        }
     }
 
-    protected boolean isContains(String uuid) {
+    @Override
+    public void delete(String uuid) {
         int index = getIndex(uuid);
-        return index >= 0;
+        if (index < 0) {
+            throw new NotExistStorageException(uuid);
+        } else {
+            deleteDiff(new Resume(uuid), index);
+            storage[size - 1] = null;
+            size--;
+        }
     }
 
     @Override
     protected void updateDiff(Resume resume) {
         storage[getIndex(resume.getUuid())] = resume;
+    }
+
+    protected Resume getDiff(String uuid) {
+        return storage[getIndex(uuid)];
     }
 
     public Resume[] getAll() {
@@ -36,10 +59,5 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     public int size() {
         return size;
-    }
-
-    @Override
-    protected boolean storageOverflow() {
-        return size == STORAGE_LIMIT;
     }
 }
