@@ -25,8 +25,7 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected void updateDiff(Resume resume) {
-        storage.remove(resume);
-        storage.add(resume);
+        storage.set(getIndex(resume.getUuid()), resume);
     }
 
     @Override
@@ -47,7 +46,6 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected Resume getDiff(String uuid) {
-        Resume tmp = new Resume(uuid);
-        return storage.get(storage.indexOf(tmp));
+        return storage.get(getIndex(uuid));
     }
 }

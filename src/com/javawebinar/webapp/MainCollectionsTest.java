@@ -21,6 +21,8 @@ public class MainCollectionsTest {
         storage.save(RESUME_2);
         storage.save(RESUME_3);
 
+        printAll();
+
         storage.update(RESUME_1);
         storage.update(RESUME_2);
         storage.update(RESUME_3);
