@@ -38,19 +38,19 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         if (index < 0) {
             throw new NotExistStorageException(uuid);
         } else {
-            deleteDiff(new Resume(uuid), index);
+            deleteDiff(index);
             storage[size - 1] = null;
             size--;
         }
     }
 
     @Override
-    protected void updateDiff(Resume resume) {
-        storage[getIndex(resume.getUuid())] = resume;
+    protected void updateDiff(Resume resume, int index) {
+        storage[index] = resume;
     }
 
-    protected Resume getDiff(String uuid) {
-        return storage[getIndex(uuid)];
+    protected Resume getDiff(int index) {
+        return storage[index];
     }
 
     public Resume[] getAll() {

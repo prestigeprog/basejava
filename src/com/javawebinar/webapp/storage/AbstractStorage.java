@@ -7,26 +7,29 @@ import com.javawebinar.webapp.model.Resume;
 public abstract class AbstractStorage implements Storage {
 
     public void update(Resume resume) {
-        if (getIndex(resume.getUuid()) < 0) {
+        int index = getIndex(resume.getUuid());
+        if (index < 0) {
             throw new NotExistStorageException(resume.getUuid());
         } else {
-            updateDiff(resume);
+            updateDiff(resume, index);
         }
     }
 
     public void save(Resume resume) {
-        if (getIndex(resume.getUuid()) >= 0) {
+        int index = getIndex(resume.getUuid());
+        if (index >= 0) {
             throw new ExistStorageException(resume.getUuid());
         } else {
-            saveDiff(resume, getIndex(resume.getUuid()));
+            saveDiff(resume, index);
         }
     }
 
     public Resume get(String uuid) {
-        if (getIndex(uuid) < 0) {
+        int index = getIndex(uuid);
+        if (index < 0) {
             throw new NotExistStorageException(uuid);
         } else {
-            return getDiff(uuid);
+            return getDiff(index);
         }
     }
 
@@ -35,17 +38,17 @@ public abstract class AbstractStorage implements Storage {
         if (index < 0) {
             throw new NotExistStorageException(uuid);
         } else {
-            deleteDiff(new Resume(uuid), index);
+            deleteDiff(index);
         }
     }
 
-    protected abstract void updateDiff(Resume resume);
+    protected abstract void updateDiff(Resume resume, int index);
 
     protected abstract int getIndex(String uuid);
 
-    protected abstract Resume getDiff(String uuid);
+    protected abstract Resume getDiff(int index);
 
     protected abstract void saveDiff(Resume resume, int index);
 
-    protected abstract void deleteDiff(Resume resume, int index);
+    protected abstract void deleteDiff(int index);
 }
