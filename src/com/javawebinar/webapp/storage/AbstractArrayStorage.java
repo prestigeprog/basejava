@@ -1,7 +1,5 @@
 package com.javawebinar.webapp.storage;
 
-import com.javawebinar.webapp.exception.ExistStorageException;
-import com.javawebinar.webapp.exception.NotExistStorageException;
 import com.javawebinar.webapp.exception.StorageException;
 import com.javawebinar.webapp.model.Resume;
 
@@ -21,27 +19,19 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     @Override
     public void save(Resume resume) {
-        int index = getIndex(resume.getUuid());
-        if (index >= 0) {
-            throw new ExistStorageException(resume.getUuid());
-        } else if (size == STORAGE_LIMIT) {
-            throw new StorageException(resume.getUuid(), "Storage is full!");
-        } else {
-            saveDiff(resume, index);
+        if (size != STORAGE_LIMIT) {
+            super.save(resume);
             size++;
+        } else {
+            throw new StorageException(resume.getUuid(), "Storage is full!");
         }
     }
 
     @Override
     public void delete(String uuid) {
-        int index = getIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        } else {
-            deleteDiff(index);
-            storage[size - 1] = null;
-            size--;
-        }
+        super.delete(uuid);
+        storage[size - 1] = null;
+        size--;
     }
 
     @Override
