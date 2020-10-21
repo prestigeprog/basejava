@@ -5,7 +5,7 @@ import com.javawebinar.webapp.storage.ListStorage;
 import com.javawebinar.webapp.storage.Storage;
 
 public class MainCollectionsTest {
-    private static Storage storage = new ListStorage();
+    private static final Storage STORAGE = new ListStorage();
     private static final String UUID_1 = "uuid1";
     private static final Resume RESUME_1 = new Resume(UUID_1);
 
@@ -17,32 +17,32 @@ public class MainCollectionsTest {
 
     public static void main(String[] args) {
 
-        storage.save(RESUME_1);
-        storage.save(RESUME_2);
-        storage.save(RESUME_3);
+        STORAGE.save(RESUME_1);
+        STORAGE.save(RESUME_2);
+        STORAGE.save(RESUME_3);
 
         printAll();
 
-        storage.update(RESUME_1);
-        storage.update(RESUME_2);
-        storage.update(RESUME_3);
+        STORAGE.update(RESUME_1);
+        STORAGE.update(RESUME_2);
+        STORAGE.update(RESUME_3);
 
-        System.out.println("Get r1: " + storage.get(RESUME_1.getUuid()));
-        System.out.println("Size: " + storage.size());
+        System.out.println("Get r1: " + STORAGE.get(RESUME_1.getUuid()));
+        System.out.println("Size: " + STORAGE.size());
 
 
         printAll();
-        storage.delete(RESUME_1.getUuid());
+        STORAGE.delete(RESUME_1.getUuid());
         printAll();
-        storage.clear();
+        STORAGE.clear();
         printAll();
 
-        System.out.println("Size: " + storage.size());
+        System.out.println("Size: " + STORAGE.size());
     }
 
     static void printAll() {
         System.out.println("\nGet All");
-        for (Resume r : storage.getAll()) {
+        for (Resume r : STORAGE.getAll()) {
             System.out.println(r);
         }
     }
