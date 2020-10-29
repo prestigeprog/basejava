@@ -2,16 +2,14 @@ package com.javawebinar.webapp.storage;
 
 import com.javawebinar.webapp.exception.ExistStorageException;
 import com.javawebinar.webapp.exception.NotExistStorageException;
-import com.javawebinar.webapp.exception.StorageException;
 import com.javawebinar.webapp.model.Resume;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import static com.javawebinar.webapp.storage.AbstractArrayStorage.STORAGE_LIMIT;
 import static org.junit.Assert.assertEquals;
 
-public abstract class AbstractArrayStorageTest {
+public class AbstractStorageTest {
     final Storage storage;
     private static final String UUID_1 = "uuid1";
     private static final Resume RESUME_1 = new Resume(UUID_1);
@@ -25,7 +23,7 @@ public abstract class AbstractArrayStorageTest {
     private static final String UUID_4 = "uuid4";
     private static final Resume RESUME_4 = new Resume(UUID_4);
 
-    protected AbstractArrayStorageTest(Storage storage) {
+    protected AbstractStorageTest(Storage storage) {
         this.storage = storage;
     }
 
@@ -98,18 +96,6 @@ public abstract class AbstractArrayStorageTest {
     @Test
     public void size() {
         assertSize(3);
-    }
-
-    @Test(expected = StorageException.class)
-    public void storageExceptionTest() {
-        try {
-            for (int i = 3; i < STORAGE_LIMIT; i++) {
-                storage.save(new Resume());
-            }
-        } catch (StorageException e) {
-            Assert.fail(e.getMessage());
-        }
-        storage.save(new Resume());
     }
 
     private void assertSize(int size) {

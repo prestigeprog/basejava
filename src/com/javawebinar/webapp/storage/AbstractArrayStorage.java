@@ -12,14 +12,16 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
 
+    @Override
     public void clear() {
         Arrays.fill(storage, 0, size, null);
         size = 0;
     }
 
-    protected void saveDiff(Resume resume, int index) {
+    @Override
+    protected void saveDiff(Resume resume, Object searchKey) {
         if (size != STORAGE_LIMIT) {
-            insertElement(resume, index);
+            insertElement(resume, (Integer) searchKey);
             size++;
         } else {
             throw new StorageException(resume.getUuid(), "Storage is full!");
@@ -27,19 +29,25 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public void deleteDiff(int index) {
-        fillDeletedElement(index);
+    public void deleteDiff(Object searchKey, String uuid) {
+        fillDeletedElement((Integer) searchKey);
         storage[size - 1] = null;
         size--;
     }
 
     @Override
-    protected void updateDiff(Resume resume, int index) {
-        storage[index] = resume;
+    protected void updateDiff(Resume resume, Object searchKey) {
+        storage[(Integer) searchKey] = resume;
     }
 
-    protected Resume getDiff(int index) {
-        return storage[index];
+    @Override
+    protected Resume getDiff(Object searchKey, String uuid) {
+        return storage[(Integer) searchKey];
+    }
+
+    @Override
+    protected boolean isContains(Object searchKey) {
+        return (Integer) searchKey >= 0;
     }
 
     public Resume[] getAll() {
@@ -52,5 +60,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     protected abstract void insertElement(Resume resume, int index);
 
-    protected abstract void fillDeletedElement(int index);
+    protected abstract void fillDeletedElement(int searchKey);
+
+    protected abstract Object getSearchKey(String uuid);
 }
