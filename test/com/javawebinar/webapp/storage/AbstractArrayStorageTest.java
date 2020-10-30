@@ -9,8 +9,8 @@ import static com.javawebinar.webapp.storage.AbstractArrayStorage.STORAGE_LIMIT;
 
 public abstract class AbstractArrayStorageTest extends AbstractStorageTest {
 
-    protected AbstractArrayStorageTest() {
-
+    protected AbstractArrayStorageTest(Storage storage) {
+        super(storage);
     }
 
     @Test(expected = StorageException.class)

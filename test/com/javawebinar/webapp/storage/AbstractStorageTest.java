@@ -10,7 +10,9 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 public abstract class AbstractStorageTest {
+
     final Storage storage;
+
     private static final String UUID_1 = "uuid1";
     private static final Resume RESUME_1 = new Resume(UUID_1);
 
