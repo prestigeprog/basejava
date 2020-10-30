@@ -7,7 +7,7 @@ import java.util.List;
 
 public class ListStorage extends AbstractStorage {
 
-    private final List<Resume> storage = new ArrayList();
+    private final List<Resume> storage = new ArrayList<>();
 
     @Override
     public void clear() {
@@ -26,7 +26,7 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected boolean isContains(Object searchKey) {
-        return storage.contains(searchKey);
+        return (Integer) searchKey >= 0;
     }
 
     @Override
@@ -36,8 +36,7 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected Integer getSearchKey(String uuid) {
-        Resume tmp = new Resume(uuid);
-        return storage.indexOf(tmp);
+        return storage.indexOf(new Resume(uuid));
     }
 
     @Override
@@ -47,7 +46,8 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected void deleteDiff(Object searchKey, String uuid) {
-        storage.remove(searchKey);
+        int index = (Integer) searchKey;
+        storage.remove(index);
     }
 
     @Override

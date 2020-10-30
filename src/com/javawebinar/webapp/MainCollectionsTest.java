@@ -1,11 +1,11 @@
 package com.javawebinar.webapp;
 
 import com.javawebinar.webapp.model.Resume;
-import com.javawebinar.webapp.storage.MapStorage;
+import com.javawebinar.webapp.storage.ListStorage;
 import com.javawebinar.webapp.storage.Storage;
 
 public class MainCollectionsTest {
-    private static final Storage STORAGE = new MapStorage();
+    private static final Storage STORAGE = new ListStorage();
     private static final String UUID_1 = "uuid1";
     private static final Resume RESUME_1 = new Resume(UUID_1);
 

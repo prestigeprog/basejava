@@ -2,6 +2,7 @@ package com.javawebinar.webapp.storage;
 
 import com.javawebinar.webapp.model.Resume;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,7 +12,8 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected boolean isContains(Object searchKey) {
-        return storage.containsKey(searchKey);
+        String key = (String) searchKey;
+        return storage.containsKey(key);
     }
 
     @Override
@@ -50,7 +52,9 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     public Resume[] getAll() {
-        return storage.values().toArray(new Resume[0]);
+        Resume[] resumes = storage.values().toArray(new Resume[0]);
+        Arrays.sort(resumes);
+        return resumes;
     }
 
     @Override
