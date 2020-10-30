@@ -27,9 +27,6 @@ public abstract class AbstractStorageTest {
         this.storage = storage;
     }
 
-    protected AbstractStorageTest() {
-    }
-
     @Before
     public void setUp() {
         storage.clear();
