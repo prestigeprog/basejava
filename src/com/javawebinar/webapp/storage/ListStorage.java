@@ -26,17 +26,22 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected boolean isContains(Object searchKey) {
-        return (Integer) searchKey >= 0;
+        return searchKey != null;
     }
 
     @Override
     protected void updateDiff(Resume resume, Object searchKey) {
-        storage.set(getSearchKey(resume.getUuid()), resume);
+        storage.set((Integer) searchKey, resume);
     }
 
     @Override
     protected Integer getSearchKey(String uuid) {
-        return storage.indexOf(new Resume(uuid));
+        for (int i = 0; i < storage.size(); i++) {
+            if (storage.get(i).getUuid().equals(uuid)) {
+                return i;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -46,8 +51,7 @@ public class ListStorage extends AbstractStorage {
 
     @Override
     protected void deleteDiff(Object searchKey, String uuid) {
-        int index = (Integer) searchKey;
-        storage.remove(index);
+        storage.remove(((Integer) searchKey).intValue());
     }
 
     @Override
