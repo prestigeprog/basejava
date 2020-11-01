@@ -27,19 +27,19 @@ public abstract class AbstractStorage implements Storage {
     }
 
     private Object getExistKey(String uuid) {
-        Object searchKey = getSearchKey(uuid);
-        if (!isContains(searchKey)) {
+        Object key = getSearchKey(uuid);
+        if (!isContains(key)) {
             throw new NotExistStorageException(uuid);
         }
-        return searchKey;
+        return key;
     }
 
     private Object getNotExistKey(String uuid) {
-        Object searchKey = getSearchKey(uuid);
-        if (isContains(searchKey)) {
+        Object key = getSearchKey(uuid);
+        if (isContains(key)) {
             throw new ExistStorageException(uuid);
         }
-        return searchKey;
+        return key;
     }
 
     protected abstract boolean isContains(Object searchKey);
