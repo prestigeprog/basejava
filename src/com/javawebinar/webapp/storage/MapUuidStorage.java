@@ -2,9 +2,7 @@ package com.javawebinar.webapp.storage;
 
 import com.javawebinar.webapp.model.Resume;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class MapUuidStorage extends AbstractStorage {
 
@@ -51,10 +49,10 @@ public class MapUuidStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume[] getAll() {
-        Resume[] resumes = storage.values().toArray(new Resume[0]);
-        Arrays.sort(resumes);
-        return resumes;
+    public List<Resume> getAllSorted() {
+        List<Resume> list = new ArrayList<Resume>(storage.values());
+        list.sort((o1, o2) -> o1.toString().compareTo(o2.toString()));
+        return list;
     }
 
     @Override

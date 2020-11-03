@@ -2,6 +2,8 @@ package com.javawebinar.webapp.storage;
 
 import com.javawebinar.webapp.model.Resume;
 
+import java.util.List;
+
 public class MapStorage extends AbstractStorage{
     
     @Override
@@ -40,8 +42,9 @@ public class MapStorage extends AbstractStorage{
     }
 
     @Override
-    public Resume[] getAll() {
-        return new Resume[0];
+    public List<Resume> getAllSorted() {
+
+        return null;
     }
 
     @Override

@@ -3,7 +3,7 @@ package com.javawebinar.webapp.storage;
 import com.javawebinar.webapp.exception.StorageException;
 import com.javawebinar.webapp.model.Resume;
 
-import java.util.Arrays;
+import java.util.*;
 
 public abstract class AbstractArrayStorage extends AbstractStorage {
 
@@ -50,8 +50,11 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return (Integer) searchKey >= 0;
     }
 
-    public Resume[] getAll() {
-        return Arrays.copyOfRange(storage, 0, size);
+    public List<Resume> getAllSorted() {
+        List<Resume> list = new ArrayList<>();
+        Collections.addAll(list, storage);
+        list.sort((o1, o2) -> o1.toString().compareTo(o2.toString()));
+        return list;
     }
 
     public int size() {

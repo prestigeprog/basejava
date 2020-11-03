@@ -16,6 +16,10 @@ public class Resume {
         this.uuid = UUID.randomUUID().toString();
     }
 
+    public Resume(String uuid) {
+        this.uuid = uuid;
+    }
+
     public Resume(String uuid, String fullName) {
         this.uuid = uuid;
         this.fullName = fullName;
