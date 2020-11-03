@@ -51,9 +51,8 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     public List<Resume> getAllSorted() {
-        List<Resume> list = new ArrayList<>();
-        Collections.addAll(list, storage);
-        list.sort((o1, o2) -> o1.toString().compareTo(o2.toString()));
+        List<Resume> list = Arrays.asList(Arrays.copyOfRange(storage, 0,size));
+        Collections.sort(list);
         return list;
     }
 
