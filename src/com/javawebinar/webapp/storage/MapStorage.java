@@ -5,7 +5,12 @@ import com.javawebinar.webapp.model.Resume;
 import java.util.List;
 
 public class MapStorage extends AbstractStorage{
-    
+
+    @Override
+    protected List<Resume> sortDiff() {
+        return null;
+    }
+
     @Override
     protected boolean isContains(Object searchKey) {
         return false;
@@ -39,12 +44,6 @@ public class MapStorage extends AbstractStorage{
     @Override
     public void clear() {
 
-    }
-
-    @Override
-    public List<Resume> getAllSorted() {
-
-        return null;
     }
 
     @Override
