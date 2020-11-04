@@ -49,7 +49,7 @@ public class MapUuidStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> sortDiff() {
+    public List<Resume> getListForSort() {
         List<Resume> list = new ArrayList<>(storage.values());
         return list;
     }

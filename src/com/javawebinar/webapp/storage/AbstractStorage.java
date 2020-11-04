@@ -45,14 +45,13 @@ public abstract class AbstractStorage implements Storage {
         return key;
     }
 
-    @Override
     public List<Resume> getAllSorted() {
-        List<Resume> list = sortDiff();
+        List<Resume> list = getListForSort();
         Collections.sort(list);
         return list;
     }
 
-    protected abstract List<Resume> sortDiff();
+    protected abstract List<Resume> getListForSort();
 
     protected abstract boolean isContains(Object searchKey);
 

@@ -15,7 +15,7 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> sortDiff() {
+    public List<Resume> getListForSort() {
         return storage;
     }
 

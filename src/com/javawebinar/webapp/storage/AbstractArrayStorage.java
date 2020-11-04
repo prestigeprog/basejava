@@ -50,7 +50,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return (Integer) searchKey >= 0;
     }
 
-    public List<Resume> sortDiff() {
+    public List<Resume> getListForSort() {
         List<Resume> list = Arrays.asList(Arrays.copyOfRange(storage, 0,size));
         return list;
     }
