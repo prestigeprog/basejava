@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MapStorage extends AbstractStorage{
+public class MapStorage extends AbstractStorage {
 
     private final Map<String, Resume> storage = new HashMap<>();
 
@@ -29,7 +29,7 @@ public class MapStorage extends AbstractStorage{
 
     @Override
     protected Resume getDiff(Object searchKey, String uuid) {
-        return storage.get(uuid);
+        return (Resume) searchKey;
     }
 
     @Override
@@ -48,9 +48,8 @@ public class MapStorage extends AbstractStorage{
     }
 
     @Override
-    public List<Resume> getListForSort() {
-        List<Resume> list = new ArrayList<>(storage.values());
-        return list;
+    public List<Resume> getList() {
+        return new ArrayList<>(storage.values());
     }
 
     @Override

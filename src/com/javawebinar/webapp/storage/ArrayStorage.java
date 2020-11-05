@@ -22,7 +22,7 @@ public class ArrayStorage extends AbstractArrayStorage {
     }
 
     @Override
-    protected void fillDeletedElement(int searchKey) {
-        storage[searchKey] = storage[size - 1];
+    protected void fillDeletedElement(int index) {
+        storage[index] = storage[size - 1];
     }
 }

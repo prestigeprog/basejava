@@ -10,8 +10,7 @@ public class MapUuidStorage extends AbstractStorage {
 
     @Override
     protected boolean isContains(Object searchKey) {
-        String key = (String) searchKey;
-        return storage.containsKey(key);
+        return storage.containsKey(searchKey);
     }
 
     @Override
@@ -21,11 +20,7 @@ public class MapUuidStorage extends AbstractStorage {
 
     @Override
     protected Object getSearchKey(String uuid) {
-        if (isContains(uuid)) {
-            return uuid;
-        } else {
-            return null;
-        }
+        return uuid;
     }
 
     @Override
@@ -49,9 +44,8 @@ public class MapUuidStorage extends AbstractStorage {
     }
 
     @Override
-    public List<Resume> getListForSort() {
-        List<Resume> list = new ArrayList<>(storage.values());
-        return list;
+    public List<Resume> getList() {
+        return new ArrayList<>(storage.values());
     }
 
     @Override

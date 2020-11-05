@@ -1,7 +1,6 @@
 package com.javawebinar.webapp.model;
 
 import java.util.Objects;
-import java.util.UUID;
 
 /**
  * Initial resume class
@@ -11,15 +10,7 @@ public class Resume implements Comparable<Resume>{
     // Unique identifier
     private final String uuid;
 
-    private String fullName;
-
-    public Resume(){
-        this.uuid = UUID.randomUUID().toString();
-    }
-
-    public Resume(String uuid) {
-        this.uuid = uuid;
-    }
+    private final String fullName;
 
     public Resume(String uuid, String fullName) {
         this.uuid = uuid;
@@ -59,9 +50,6 @@ public class Resume implements Comparable<Resume>{
     @Override
     public int compareTo(Resume o) {
         int result = this.fullName.compareTo(o.fullName);
-        if(result == 0){
-            result = this.uuid.compareTo(o.uuid);
-        }
-        return result;
+        return result!=0 ? result : this.uuid.compareTo(o.uuid);
     }
 }
