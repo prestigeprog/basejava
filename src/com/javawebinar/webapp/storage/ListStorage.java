@@ -5,7 +5,7 @@ import com.javawebinar.webapp.model.Resume;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListStorage extends AbstractStorage {
+public class ListStorage extends AbstractStorage<Integer> {
 
     private final List<Resume> storage = new ArrayList<>();
 
@@ -25,13 +25,13 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected boolean isContains(Object searchKey) {
+    protected boolean isContains(Integer searchKey) {
         return searchKey != null;
     }
 
     @Override
-    protected void updateDiff(Resume resume, Object searchKey) {
-        storage.set((Integer) searchKey, resume);
+    protected void updateDiff(Resume resume, Integer searchKey) {
+        storage.set(searchKey, resume);
     }
 
     @Override
@@ -45,17 +45,17 @@ public class ListStorage extends AbstractStorage {
     }
 
     @Override
-    protected void saveDiff(Resume resume, Object searchKey) {
+    protected void saveDiff(Resume resume, Integer searchKey) {
         storage.add(resume);
     }
 
     @Override
-    protected void deleteDiff(Object searchKey, String uuid) {
-        storage.remove(((Integer) searchKey).intValue());
+    protected void deleteDiff(Integer searchKey, String uuid) {
+        storage.remove((searchKey).intValue());
     }
 
     @Override
-    protected Resume getDiff(Object searchKey, String uuid) {
-        return storage.get((Integer) searchKey);
+    protected Resume getDiff(Integer searchKey, String uuid) {
+        return storage.get(searchKey);
     }
 }

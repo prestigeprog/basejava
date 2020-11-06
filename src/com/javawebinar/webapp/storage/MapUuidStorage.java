@@ -4,37 +4,37 @@ import com.javawebinar.webapp.model.Resume;
 
 import java.util.*;
 
-public class MapUuidStorage extends AbstractStorage {
+public class MapUuidStorage extends AbstractStorage<String> {
 
     private final Map<String, Resume> storage = new HashMap<>();
 
     @Override
-    protected boolean isContains(Object searchKey) {
+    protected boolean isContains(String searchKey) {
         return storage.containsKey(searchKey);
     }
 
     @Override
-    protected void updateDiff(Resume resume, Object searchKey) {
-        storage.put(resume.getUuid(), resume);
+    protected void updateDiff(Resume resume, String searchKey) {
+        storage.put(searchKey, resume);
     }
 
     @Override
-    protected Object getSearchKey(String uuid) {
+    protected String getSearchKey(String uuid) {
         return uuid;
     }
 
     @Override
-    protected Resume getDiff(Object searchKey, String uuid) {
+    protected Resume getDiff(String searchKey, String uuid) {
         return storage.get(uuid);
     }
 
     @Override
-    protected void saveDiff(Resume resume, Object searchKey) {
+    protected void saveDiff(Resume resume, String searchKey) {
         storage.put(resume.getUuid(), resume);
     }
 
     @Override
-    protected void deleteDiff(Object searchKey, String uuid) {
+    protected void deleteDiff(String searchKey, String uuid) {
         storage.remove(uuid);
     }
 

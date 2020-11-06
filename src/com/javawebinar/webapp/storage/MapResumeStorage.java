@@ -7,18 +7,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MapStorage extends AbstractStorage {
+public class MapResumeStorage extends AbstractStorage<Resume> {
 
     private final Map<String, Resume> storage = new HashMap<>();
 
     @Override
-    protected boolean isContains(Object searchKey) {
-        Resume r = (Resume) searchKey;
-        return storage.containsValue(r);
+    protected boolean isContains(Resume searchKey) {
+        return searchKey != null;
     }
 
     @Override
-    protected void updateDiff(Resume resume, Object searchKey) {
+    protected void updateDiff(Resume resume, Resume searchKey) {
         storage.put(resume.getUuid(), resume);
     }
 
@@ -28,17 +27,17 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume getDiff(Object searchKey, String uuid) {
-        return (Resume) searchKey;
+    protected Resume getDiff(Resume searchKey, String uuid) {
+        return searchKey;
     }
 
     @Override
-    protected void saveDiff(Resume resume, Object searchKey) {
+    protected void saveDiff(Resume resume, Resume searchKey) {
         storage.put(resume.getUuid(), resume);
     }
 
     @Override
-    protected void deleteDiff(Object searchKey, String uuid) {
+    protected void deleteDiff(Resume searchKey, String uuid) {
         storage.remove(uuid);
     }
 

@@ -5,7 +5,7 @@ import com.javawebinar.webapp.model.Resume;
 
 import java.util.*;
 
-public abstract class AbstractArrayStorage extends AbstractStorage {
+public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
 
     protected static final int STORAGE_LIMIT = 10000;
 
@@ -19,9 +19,9 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected void saveDiff(Resume resume, Object searchKey) {
+    protected void saveDiff(Resume resume, Integer searchKey) {
         if (size != STORAGE_LIMIT) {
-            insertElement(resume, (Integer) searchKey);
+            insertElement(resume, searchKey);
             size++;
         } else {
             throw new StorageException(resume.getUuid(), "Storage is full!");
@@ -29,25 +29,25 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public void deleteDiff(Object searchKey, String uuid) {
-        fillDeletedElement((Integer) searchKey);
+    public void deleteDiff(Integer searchKey, String uuid) {
+        fillDeletedElement(searchKey);
         storage[size - 1] = null;
         size--;
     }
 
     @Override
-    protected void updateDiff(Resume resume, Object searchKey) {
-        storage[(Integer) searchKey] = resume;
+    protected void updateDiff(Resume resume, Integer searchKey) {
+        storage[searchKey] = resume;
     }
 
     @Override
-    protected Resume getDiff(Object searchKey, String uuid) {
-        return storage[(Integer) searchKey];
+    protected Resume getDiff(Integer searchKey, String uuid) {
+        return storage[searchKey];
     }
 
     @Override
-    protected boolean isContains(Object searchKey) {
-        return (Integer) searchKey >= 0;
+    protected boolean isContains(Integer searchKey) {
+        return searchKey >= 0;
     }
 
     public List<Resume> getList() {
@@ -62,5 +62,5 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
 
     protected abstract void fillDeletedElement(int searchKey);
 
-    protected abstract Object getSearchKey(String uuid);
+    protected abstract Integer getSearchKey(String uuid);
 }
