@@ -1,7 +1,6 @@
 package com.javawebinar.webapp.model;
 
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Initial resume class
@@ -12,6 +11,10 @@ public class Resume implements Comparable<Resume>{
     private final String uuid;
 
     private final String fullName;
+
+    private final Map<ContactType, String> contacts = new HashMap<>();
+
+    private final Map<SectionType, Section> sections = new HashMap<>();
 
     public Resume(String uuid, String fullName) {
         Objects.requireNonNull(uuid, "uuid must not be null!");
@@ -30,6 +33,22 @@ public class Resume implements Comparable<Resume>{
 
     public String getFullName() {
         return fullName;
+    }
+
+    public String getContact(ContactType type) {
+        return contacts.get(type);
+    }
+
+    public void setContact(ContactType type, String content) {
+        contacts.put(type, content);
+    }
+
+    public Section getSection(SectionType type) {
+        return sections.get(type);
+    }
+
+    public void setSection(SectionType type, Section section) {
+        sections.put(type, section);
     }
 
     @Override
