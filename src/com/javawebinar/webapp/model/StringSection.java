@@ -2,7 +2,7 @@ package com.javawebinar.webapp.model;
 
 import java.util.Objects;
 
-public class StringSection extends Section{
+public class StringSection extends Section {
     private final String description;
 
     public StringSection(String description) {
@@ -28,8 +28,6 @@ public class StringSection extends Section{
 
     @Override
     public String toString() {
-        return "StringSection{" +
-                "description='" + description + '\'' +
-                '}';
+        return "" + description;
     }
 }

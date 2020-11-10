@@ -5,14 +5,14 @@ import java.util.*;
 /**
  * Initial resume class
  */
-public class Resume implements Comparable<Resume>{
+public class Resume implements Comparable<Resume> {
 
     // Unique identifier
     private final String uuid;
 
     private final String fullName;
 
-    private final Map<ContactType, String> contacts = new HashMap<>();
+    private final Map<ContactType, Section> contacts = new HashMap<>();
 
     private final Map<SectionType, Section> sections = new HashMap<>();
 
@@ -35,12 +35,12 @@ public class Resume implements Comparable<Resume>{
         return fullName;
     }
 
-    public String getContact(ContactType type) {
+    public Section getContact(ContactType type) {
         return contacts.get(type);
     }
 
-    public void setContact(ContactType type, String content) {
-        contacts.put(type, content);
+    public void setContact(ContactType type, Section section) {
+        contacts.put(type, section);
     }
 
     public Section getSection(SectionType type) {
@@ -76,6 +76,6 @@ public class Resume implements Comparable<Resume>{
     @Override
     public int compareTo(Resume o) {
         int result = this.fullName.compareTo(o.fullName);
-        return result!=0 ? result : this.uuid.compareTo(o.uuid);
+        return result != 0 ? result : this.uuid.compareTo(o.uuid);
     }
 }

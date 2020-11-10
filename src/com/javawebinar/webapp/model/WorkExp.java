@@ -34,11 +34,6 @@ public class WorkExp {
 
     @Override
     public String toString() {
-        return "WorkExp{" +
-                "name='" + name + '\'' +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                ", description='" + description + '\'' +
-                '}';
+        return "" + name + '\'' + startDate + endDate + description;
     }
 }

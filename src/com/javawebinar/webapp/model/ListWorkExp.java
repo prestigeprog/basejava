@@ -3,8 +3,8 @@ package com.javawebinar.webapp.model;
 import java.util.List;
 import java.util.Objects;
 
-public class ListWorkExp extends Section{
-    private List<WorkExp> list;
+public class ListWorkExp extends Section {
+    private final List<WorkExp> list;
 
     public ListWorkExp(List<WorkExp> list) {
         this.list = list;
@@ -29,8 +29,6 @@ public class ListWorkExp extends Section{
 
     @Override
     public String toString() {
-        return "ListWorkExp{" +
-                "list=" + list +
-                '}';
+        return "" + list;
     }
 }
