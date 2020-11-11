@@ -3,14 +3,14 @@ package com.javawebinar.webapp.model;
 import java.util.List;
 import java.util.Objects;
 
-public class ListWorkExp extends Section {
-    private final List<WorkExp> list;
+public class OrganizationSection extends AbstractSection {
+    private final List<Experience> list;
 
-    public ListWorkExp(List<WorkExp> list) {
+    public OrganizationSection(List<Experience> list) {
         this.list = list;
     }
 
-    public List<WorkExp> getList() {
+    public List<Experience> getList() {
         return list;
     }
 
@@ -18,7 +18,7 @@ public class ListWorkExp extends Section {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ListWorkExp that = (ListWorkExp) o;
+        OrganizationSection that = (OrganizationSection) o;
         return list.equals(that.list);
     }
 

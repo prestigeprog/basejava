@@ -2,10 +2,10 @@ package com.javawebinar.webapp.model;
 
 import java.util.Objects;
 
-public class StringSection extends Section {
+public class SimpleTextSection extends AbstractSection {
     private final String description;
 
-    public StringSection(String description) {
+    public SimpleTextSection(String description) {
         this.description = description;
     }
 
@@ -17,7 +17,7 @@ public class StringSection extends Section {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        StringSection that = (StringSection) o;
+        SimpleTextSection that = (SimpleTextSection) o;
         return description.equals(that.description);
     }
 

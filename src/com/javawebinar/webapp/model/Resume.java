@@ -12,9 +12,9 @@ public class Resume implements Comparable<Resume> {
 
     private final String fullName;
 
-    private final Map<ContactType, Section> contacts = new HashMap<>();
+    private final Map<ContactType, AbstractSection> contacts = new EnumMap<ContactType, AbstractSection>(ContactType.class);
 
-    private final Map<SectionType, Section> sections = new HashMap<>();
+    private final Map<SectionType, AbstractSection> sections = new EnumMap<SectionType, AbstractSection>(SectionType.class);
 
     public Resume(String uuid, String fullName) {
         Objects.requireNonNull(uuid, "uuid must not be null!");
@@ -35,28 +35,25 @@ public class Resume implements Comparable<Resume> {
         return fullName;
     }
 
-    public Section getContact(ContactType type) {
+    public AbstractSection getContact(ContactType type) {
         return contacts.get(type);
     }
 
-    public void setContact(ContactType type, Section section) {
+    public void setContact(ContactType type, AbstractSection section) {
         contacts.put(type, section);
     }
 
-    public Section getSection(SectionType type) {
+    public AbstractSection getSection(SectionType type) {
         return sections.get(type);
     }
 
-    public void setSection(SectionType type, Section section) {
+    public void setSection(SectionType type, AbstractSection section) {
         sections.put(type, section);
     }
 
     @Override
     public String toString() {
-        return "Resume{" +
-                "uuid='" + uuid + '\'' +
-                ", fullName='" + fullName + '\'' +
-                '}';
+        return uuid + "\n" + fullName + "\n" + contacts + "\n" + sections;
     }
 
     @Override
