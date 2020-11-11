@@ -12,9 +12,9 @@ public class Resume implements Comparable<Resume> {
 
     private final String fullName;
 
-    private final Map<ContactType, AbstractSection> contacts = new EnumMap<ContactType, AbstractSection>(ContactType.class);
+    private final Map<ContactType, AbstractSection> contacts = new EnumMap<>(ContactType.class);
 
-    private final Map<SectionType, AbstractSection> sections = new EnumMap<SectionType, AbstractSection>(SectionType.class);
+    private final Map<SectionType, AbstractSection> sections = new EnumMap<>(SectionType.class);
 
     public Resume(String uuid, String fullName) {
         Objects.requireNonNull(uuid, "uuid must not be null!");
