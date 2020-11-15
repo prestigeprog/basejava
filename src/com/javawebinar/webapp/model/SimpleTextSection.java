@@ -6,6 +6,7 @@ public class SimpleTextSection extends AbstractSection {
     private final String description;
 
     public SimpleTextSection(String description) {
+        Objects.requireNonNull(description, "description must not be null");
         this.description = description;
     }
 
@@ -28,6 +29,6 @@ public class SimpleTextSection extends AbstractSection {
 
     @Override
     public String toString() {
-        return "" + description;
+        return description;
     }
 }

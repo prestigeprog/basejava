@@ -19,11 +19,11 @@ public abstract class AbstractStorage<SK> implements Storage {
 
     protected abstract SK getSearchKey(String uuid);
 
-    protected abstract Resume getDiff(SK searchKey, String uuid);
+    protected abstract Resume getDiff(SK searchKey);
 
     protected abstract void saveDiff(Resume resume, SK searchKey);
 
-    protected abstract void deleteDiff(SK searchKey, String uuid);
+    protected abstract void deleteDiff(SK searchKey);
 
     public void update(Resume resume) {
         LOG.info("Update " + resume);
@@ -40,13 +40,13 @@ public abstract class AbstractStorage<SK> implements Storage {
     public Resume get(String uuid) {
         LOG.info("Get " + uuid);
         SK searchKey = getExistKey(uuid);
-        return getDiff(searchKey, uuid);
+        return getDiff(searchKey);
     }
 
     public void delete(String uuid) {
         LOG.info("Delete " + uuid);
         SK searchKey = getExistKey(uuid);
-        deleteDiff(searchKey, uuid);
+        deleteDiff(searchKey);
     }
 
     private SK getExistKey(String uuid) {

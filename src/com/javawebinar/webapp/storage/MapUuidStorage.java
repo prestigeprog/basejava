@@ -24,8 +24,8 @@ public class MapUuidStorage extends AbstractStorage<String> {
     }
 
     @Override
-    protected Resume getDiff(String searchKey, String uuid) {
-        return storage.get(uuid);
+    protected Resume getDiff(String searchKey) {
+        return storage.get(searchKey);
     }
 
     @Override
@@ -34,8 +34,8 @@ public class MapUuidStorage extends AbstractStorage<String> {
     }
 
     @Override
-    protected void deleteDiff(String searchKey, String uuid) {
-        storage.remove(uuid);
+    protected void deleteDiff(String searchKey) {
+        storage.remove(searchKey);
     }
 
     @Override

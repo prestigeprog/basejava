@@ -27,7 +27,7 @@ public class MapResumeStorage extends AbstractStorage<Resume> {
     }
 
     @Override
-    protected Resume getDiff(Resume searchKey, String uuid) {
+    protected Resume getDiff(Resume searchKey) {
         return searchKey;
     }
 
@@ -37,8 +37,8 @@ public class MapResumeStorage extends AbstractStorage<Resume> {
     }
 
     @Override
-    protected void deleteDiff(Resume searchKey, String uuid) {
-        storage.remove(uuid);
+    protected void deleteDiff(Resume searchKey) {
+        storage.remove(searchKey.getUuid());
     }
 
     @Override

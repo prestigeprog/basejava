@@ -29,7 +29,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     }
 
     @Override
-    public void deleteDiff(Integer searchKey, String uuid) {
+    public void deleteDiff(Integer searchKey) {
         fillDeletedElement(searchKey);
         storage[size - 1] = null;
         size--;
@@ -41,7 +41,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     }
 
     @Override
-    protected Resume getDiff(Integer searchKey, String uuid) {
+    protected Resume getDiff(Integer searchKey) {
         return storage[searchKey];
     }
 

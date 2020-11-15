@@ -50,12 +50,12 @@ public class ListStorage extends AbstractStorage<Integer> {
     }
 
     @Override
-    protected void deleteDiff(Integer searchKey, String uuid) {
+    protected void deleteDiff(Integer searchKey) {
         storage.remove((searchKey).intValue());
     }
 
     @Override
-    protected Resume getDiff(Integer searchKey, String uuid) {
+    protected Resume getDiff(Integer searchKey) {
         return storage.get(searchKey);
     }
 }

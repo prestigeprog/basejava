@@ -1,13 +1,13 @@
 package com.javawebinar.webapp.model;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class BulletedListSection extends AbstractSection {
-    private List<String> list = new ArrayList<>();
+    private final List<String> list;
 
     public BulletedListSection(List<String> list) {
+        Objects.requireNonNull(list, "list must not be null");
         this.list = list;
     }
 
@@ -25,7 +25,7 @@ public class BulletedListSection extends AbstractSection {
 
     @Override
     public String toString() {
-        return "" + list;
+        return list.toString();
     }
 
     @Override
