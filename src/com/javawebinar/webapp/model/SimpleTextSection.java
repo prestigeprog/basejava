@@ -3,6 +3,8 @@ package com.javawebinar.webapp.model;
 import java.util.Objects;
 
 public class SimpleTextSection extends AbstractSection {
+    private static final long serialVersionUID = 1L;
+
     private final String description;
 
     public SimpleTextSection(String description) {

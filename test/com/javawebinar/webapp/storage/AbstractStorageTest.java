@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -15,20 +16,22 @@ import static com.javawebinar.webapp.ResumeTestData.createFilledResume;
 import static org.junit.Assert.assertEquals;
 
 public abstract class AbstractStorageTest {
+    protected static final String STORAGE_PATH = "D:\\local\\basejava\\storage";
+    protected static final File STORAGE_DIR = new File(STORAGE_PATH);
 
     final Storage storage;
 
     private static final String UUID_1 = "uuid1";
-    private static final Resume RESUME_1 = createFilledResume(UUID_1, "Barry Allen");
+    private static final Resume R1 = createFilledResume(UUID_1, "Barry Allen");
 
     private static final String UUID_2 = "uuid2";
-    private static final Resume RESUME_2 = createFilledResume(UUID_2, "Lex Lutor");
+    private static final Resume R2 = createFilledResume(UUID_2, "Lex Lutor");
 
     private static final String UUID_3 = "uuid3";
-    private static final Resume RESUME_3 = createFilledResume(UUID_3, "Oliver Queen");
+    private static final Resume R3 = createFilledResume(UUID_3, "Oliver Queen");
 
     private static final String UUID_4 = "uuid4";
-    private static final Resume RESUME_4 = createFilledResume(UUID_4, "Diana Prince");
+    private static final Resume R4 = createFilledResume(UUID_4, "Diana Prince");
 
     public AbstractStorageTest(Storage storage) {
         this.storage = storage;
@@ -37,9 +40,9 @@ public abstract class AbstractStorageTest {
     @Before
     public void setUp() {
         storage.clear();
-        storage.save(RESUME_1);
-        storage.save(RESUME_2);
-        storage.save(RESUME_3);
+        storage.save(R1);
+        storage.save(R2);
+        storage.save(R3);
     }
 
     @Test
@@ -62,8 +65,8 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void save() {
-        storage.save(RESUME_4);
-        assertGet(RESUME_4);
+        storage.save(R4);
+        assertGet(R4);
         assertSize(4);
     }
 
@@ -75,7 +78,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void get() {
-        assertGet(RESUME_1);
+        assertGet(R1);
     }
 
     @Test(expected = NotExistStorageException.class)

@@ -2,22 +2,25 @@ package com.javawebinar.webapp.storage;
 
 import com.javawebinar.webapp.exception.StorageException;
 import com.javawebinar.webapp.model.Resume;
+import com.javawebinar.webapp.serializator.Serializator;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public abstract class AbstractFileStorage extends AbstractStorage<File> {
+public class FileStorage extends AbstractStorage<File> {
     private final File directory;
 
-    protected AbstractFileStorage(File directory) {
+    private final Serializator serializator;
+
+    protected FileStorage(File directory, Serializator serializator) {
+        this.serializator = serializator;
         Objects.requireNonNull(directory, "directory must not be null!");
         if (!directory.isDirectory()) {
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not directory!");
         }
-        if (!directory.canRead() || directory.canWrite()) {
+        if (!directory.canRead() || !directory.canWrite()) {
             throw new IllegalArgumentException(directory.getAbsolutePath() + " is not readable/writable!");
         }
         this.directory = directory;
@@ -45,9 +48,9 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     @Override
     protected void updateDiff(Resume resume, File file) {
         try {
-            doWrite(resume, file);
+            serializator.doWrite(resume, new BufferedOutputStream(new FileOutputStream(file)));
         } catch (IOException e) {
-            throw new StorageException("IO Error", file.getName(), e);
+            throw new StorageException("File write error", resume.getUuid(), e);
         }
     }
 
@@ -58,22 +61,28 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
 
     @Override
     protected Resume getDiff(File file) {
-        return doRead(file);
+        try {
+            return serializator.doRead(new BufferedInputStream(new FileInputStream(file)));
+        } catch (IOException e) {
+            throw new StorageException("File read error", file.getName(), e);
+        }
     }
 
     @Override
     protected void saveDiff(Resume resume, File file) {
         try {
             file.createNewFile();
-            doWrite(resume, file);
         } catch (IOException e) {
-            throw new StorageException("IO Error", file.getName(), e);
+            throw new StorageException("Couldn't create file " + file.getAbsolutePath(), file.getName(), e);
         }
+        updateDiff(resume, file);
     }
 
     @Override
     protected void deleteDiff(File file) {
-        doDelete(file);
+        if (!file.delete()) {
+            throw new StorageException("File delete error", file.getName());
+        }
     }
 
     @Override
@@ -81,7 +90,7 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
         File[] filesArray = directory.listFiles();
         if (filesArray != null) {
             for (File file : filesArray) {
-                doDelete(file);
+                deleteDiff(file);
             }
         } else {
             throw new StorageException("directory is empty", null);
@@ -92,14 +101,8 @@ public abstract class AbstractFileStorage extends AbstractStorage<File> {
     public int size() {
         String[] files = directory.list();
         if (files == null) {
-            throw new StorageException("directory is empty",null);
+            throw new StorageException("directory is empty", null);
         }
         return files.length;
     }
-
-    protected abstract void doDelete(File file);
-
-    protected abstract void doWrite(Resume resume, File file) throws IOException;
-
-    protected abstract Resume doRead(File file);
 }
