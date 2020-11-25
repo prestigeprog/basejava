@@ -4,15 +4,24 @@ import java.io.File;
 
 public class MainFile {
 
+    static int count = 0;
+
     public static void printDirectoryDeeply(File folder) {
         File[] folderEntries = folder.listFiles();
         if (folderEntries != null) {
             for (File entry : folderEntries) {
                 if (entry.isDirectory()) {
-                    System.out.println(entry.getName());
+                    count++;
+                    for (int i = 0; i < count; i++) {
+                        System.out.print("-");
+                    }
+                    System.out.println("-" + entry.getName());
                     printDirectoryDeeply(entry);
-                } else if (entry.isFile()){
-                    System.out.println("   " + entry.getName());
+                } else if (entry.isFile()) {
+                    for (int i = 0; i < count; i++) {
+                        System.out.print(" ");
+                    }
+                    System.out.println(" " + entry.getName());
                 }
             }
         }

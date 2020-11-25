@@ -11,6 +11,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class PathStorage extends AbstractStorage<Path> {
     private final Path directory;
@@ -27,11 +28,7 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     protected List<Resume> getList() {
-        try {
-            return Files.list(directory).map(this::getDiff).collect(Collectors.toList());
-        } catch (IOException e) {
-            throw new StorageException("Directory read error", null, e);
-        }
+        return getFilesList(directory).map(this::getDiff).collect(Collectors.toList());
     }
 
     @Override
@@ -83,19 +80,19 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     public void clear() {
-        try {
-            Files.list(directory).forEach(this::deleteDiff);
-        } catch (IOException e) {
-            throw new StorageException("Path delete error", null, e);
-        }
+        getFilesList(directory).forEach(this::deleteDiff);
     }
 
     @Override
-    public int size()  {
+    public int size() {
+        return (int) getFilesList(directory).count();
+    }
+
+    private Stream<Path> getFilesList(Path directory) {
         try {
-            return (int)Files.list(directory).count();
+            return Files.list(directory);
         } catch (IOException e) {
-            throw new StorageException("Can't count files in the path", null, e);
+            throw new StorageException("Can't do list from path", null, e);
         }
     }
 }
