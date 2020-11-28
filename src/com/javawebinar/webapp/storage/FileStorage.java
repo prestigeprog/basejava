@@ -28,9 +28,8 @@ public class FileStorage extends AbstractStorage<File> {
 
     @Override
     protected List<Resume> getList() {
-        File[] filesArray = getFilesList(directory);
         List<Resume> list = new ArrayList<>();
-        for (File file : filesArray) {
+        for (File file : getFilesList()) {
             list.add(getDiff(file));
         }
         return list;
@@ -83,19 +82,17 @@ public class FileStorage extends AbstractStorage<File> {
 
     @Override
     public void clear() {
-        File[] filesArray = getFilesList(directory);
-        for (File file : filesArray) {
+        for (File file : getFilesList()) {
             deleteDiff(file);
         }
     }
 
     @Override
     public int size() {
-        File[] files = getFilesList(directory);
-        return files.length;
+        return getFilesList().length;
     }
 
-    private File[] getFilesList(File directory) {
+    private File[] getFilesList() {
         File[] files = directory.listFiles();
         if (files == null) {
             throw new StorageException("directory is empty", null);

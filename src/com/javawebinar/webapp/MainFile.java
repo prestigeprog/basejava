@@ -13,15 +13,16 @@ public class MainFile {
                 if (entry.isDirectory()) {
                     count++;
                     for (int i = 0; i < count; i++) {
-                        System.out.print("-");
-                    }
-                    System.out.println("-" + entry.getName());
-                    printDirectoryDeeply(entry);
-                } else if (entry.isFile()) {
-                    for (int i = 0; i < count; i++) {
                         System.out.print(" ");
                     }
                     System.out.println(" " + entry.getName());
+                    printDirectoryDeeply(entry);
+                    count--;
+                } else if (entry.isFile()) {
+                    for (int i = 0; i < count; i++) {
+                        System.out.print("  ");
+                    }
+                    System.out.println("  " + entry.getName());
                 }
             }
         }
@@ -29,7 +30,7 @@ public class MainFile {
 
 
     public static void main(String[] args) {
-        File dir = new File("D:\\local\\basejava\\src\\com\\javawebinar\\webapp");
+        File dir = new File("D:\\local\\basejava\\src\\com");
         printDirectoryDeeply(dir);
     }
 }

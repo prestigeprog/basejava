@@ -28,7 +28,7 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     protected List<Resume> getList() {
-        return getFilesList(directory).map(this::getDiff).collect(Collectors.toList());
+        return getPaths().map(this::getDiff).collect(Collectors.toList());
     }
 
     @Override
@@ -80,15 +80,15 @@ public class PathStorage extends AbstractStorage<Path> {
 
     @Override
     public void clear() {
-        getFilesList(directory).forEach(this::deleteDiff);
+        getPaths().forEach(this::deleteDiff);
     }
 
     @Override
     public int size() {
-        return (int) getFilesList(directory).count();
+        return (int) getPaths().count();
     }
 
-    private Stream<Path> getFilesList(Path directory) {
+    private Stream<Path> getPaths() {
         try {
             return Files.list(directory);
         } catch (IOException e) {
