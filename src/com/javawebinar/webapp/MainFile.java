@@ -15,12 +15,12 @@ public class MainFile {
                     for (int i = 0; i < count; i++) {
                         System.out.print(" ");
                     }
-                    System.out.println(" " + entry.getName());
+                    System.out.println("-" + entry.getName());
                     printDirectoryDeeply(entry);
                     count--;
                 } else if (entry.isFile()) {
                     for (int i = 0; i < count; i++) {
-                        System.out.print("  ");
+                        System.out.print(" ");
                     }
                     System.out.println("  " + entry.getName());
                 }
