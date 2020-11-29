@@ -101,9 +101,9 @@ public abstract class AbstractStorageTest {
     @Test
     public void getAllSorted() {
         List<Resume> expectedResumes = new ArrayList<>();
-        expectedResumes.add(createFilledResume(UUID_1, "Barry Allen"));
-        expectedResumes.add(createFilledResume(UUID_2, "Lex Lutor"));
-        expectedResumes.add(createFilledResume(UUID_3, "Oliver Queen"));
+        expectedResumes.add(R1);
+        expectedResumes.add(R2);
+        expectedResumes.add(R3);
         expectedResumes.sort(Comparator.comparing(Resume::getFullName).thenComparing(Resume::getUuid));
         Assert.assertEquals(expectedResumes, storage.getAllSorted());
     }
