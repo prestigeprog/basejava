@@ -16,8 +16,7 @@ import static com.javawebinar.webapp.ResumeTestData.createFilledResume;
 import static org.junit.Assert.assertEquals;
 
 public abstract class AbstractStorageTest {
-    protected static final String STORAGE_PATH = "D:\\local\\basejava\\storage";
-    protected static final File STORAGE_DIR = new File(STORAGE_PATH);
+    protected static final File STORAGE_DIR = new File("D:\\local\\basejava\\storage");
 
     final Storage storage;
 

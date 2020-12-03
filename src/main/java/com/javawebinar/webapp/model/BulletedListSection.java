@@ -7,7 +7,10 @@ import java.util.Objects;
 public class BulletedListSection extends AbstractSection {
     private static final long serialVersionUID = 1L;
 
-    private final List<String> list;
+    private List<String> list;
+
+    public BulletedListSection() {
+    }
 
     public BulletedListSection(String... list) {
         this(Arrays.asList(list));

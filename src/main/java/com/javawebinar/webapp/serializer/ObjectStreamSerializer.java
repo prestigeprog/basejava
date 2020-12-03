@@ -1,11 +1,11 @@
-package com.javawebinar.webapp.serializator;
+package com.javawebinar.webapp.serializer;
 
 import com.javawebinar.webapp.exception.StorageException;
 import com.javawebinar.webapp.model.Resume;
 
 import java.io.*;
 
-public class ObjectStreamSerializator implements Serializator {
+public class ObjectStreamSerializer implements StreamSerializer {
     @Override
     public void doWrite(Resume resume, OutputStream os) throws IOException {
         try (ObjectOutputStream oos = new ObjectOutputStream(os)) {

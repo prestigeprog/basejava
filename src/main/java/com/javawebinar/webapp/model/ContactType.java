@@ -1,5 +1,8 @@
 package com.javawebinar.webapp.model;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public enum ContactType {
     PHONE("Телефон"),
     SKYPE("Skype"),
@@ -9,7 +12,10 @@ public enum ContactType {
     STACKOVERFLOW("StackOverFlow"),
     HOMEPAGE("Домашняя страница");
 
-    private final String title;
+    private String title;
+
+    ContactType() {
+    }
 
     ContactType(String title) {
         this.title = title;

@@ -1,7 +1,12 @@
 package com.javawebinar.webapp.model;
 
 import com.javawebinar.webapp.util.DateUtil;
+import com.javawebinar.webapp.util.LocalDateAdapter;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Month;
@@ -11,11 +16,16 @@ import java.util.Objects;
 
 import static com.javawebinar.webapp.util.DateUtil.NOW;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Organization implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private final List<Position> positions;
-    private final Link link;
+    private List<Position> positions;
+    private Link link;
+
+    public Organization() {
+    }
 
     public Organization(String name, String url, Position... positions) {
         this(new Link(name, url), Arrays.asList(positions));
@@ -46,13 +56,27 @@ public class Organization implements Serializable {
         return positions.toString() + "\n" + link;
     }
 
+    public List<Position> getPositions() {
+        return positions;
+    }
+
+    public Link getLink() {
+        return link;
+    }
+
+    @XmlAccessorType(XmlAccessType.FIELD)
     public static class Position implements Serializable{
         private static final long serialVersionUID = 1L;
 
-        private final String title;
-        private final LocalDate startDate;
-        private final LocalDate endDate;
-        private final String description;
+        private String title;
+        @XmlJavaTypeAdapter(LocalDateAdapter.class)
+        private LocalDate startDate;
+        @XmlJavaTypeAdapter(LocalDateAdapter.class)
+        private LocalDate endDate;
+        private String description;
+
+        public Position() {
+        }
 
         public Position(int startYear, Month startMonth, String title, String description) {
             this(DateUtil.of(startYear, startMonth), NOW, title, description);

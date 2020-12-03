@@ -1,5 +1,8 @@
 package com.javawebinar.webapp.model;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public enum SectionType {
     PERSONAL("Личные Качества"),
     OBJECTIVE("Позиция"),
@@ -8,7 +11,10 @@ public enum SectionType {
     EXPERIENCE("Опыт работы"),
     EDUCATION("Образование");
 
-    private final String title;
+    private String title;
+
+    SectionType() {
+    }
 
     SectionType(String title) {
         this.title = title;
