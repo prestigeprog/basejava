@@ -30,21 +30,23 @@ public class DataStreamSerializer implements StreamSerializer {
                 // org -> listOrg-> section
                 switch (type) {
                     case EDUCATION, EXPERIENCE -> writeWithException(((OrganizationSection) section).getOrganizations(), dos, organization -> {
-                        if (organization.getLink() == null) {
-                            dos.writeUTF("no web page");
-                            dos.writeUTF("null");
+                        Link link = organization.getLink();
+                        dos.writeUTF(link.getName());
+                        if (link.getUrl() == null){
+                            dos.writeUTF("no website");
                         } else {
-                            Link link = organization.getLink();
-                            dos.writeUTF(link.getName());
                             dos.writeUTF(link.getUrl());
-                            writeWithException(organization.getPositions(), dos, position -> {
-                                writeDate(position, dos);
-                                dos.writeUTF(position.getTitle());
-                                dos.writeUTF(position.getDescription());
-
-
-                            });
                         }
+                        writeWithException(organization.getPositions(), dos, position -> {
+                            writeDate(position, dos);
+                            dos.writeUTF(position.getTitle());
+                            if(position.getDescription() == null){
+                                dos.writeUTF("no description");
+                            } else {
+                                dos.writeUTF(position.getDescription());
+                            }
+                        });
+
                     });
                     case PERSONAL, OBJECTIVE -> dos.writeUTF(((SimpleTextSection) section).getDescription());
                     case ACHIEVEMENT, QUALIFICATIONS -> writeWithException(((BulletedListSection) section).getList(), dos, dos::writeUTF);
