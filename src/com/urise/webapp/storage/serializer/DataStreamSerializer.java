@@ -18,12 +18,13 @@ public class DataStreamSerializer implements StreamSerializer {
             dos.writeUTF(resume.getUuid());
             dos.writeUTF(resume.getFullName());
             Map<ContactType, String> contacts = resume.getContacts();
-            writeWithException(contacts.entrySet(), dos, entry ->{
+            writeWithException(contacts.entrySet(), dos, entry -> {
                 dos.writeUTF(entry.getKey().name());
                 dos.writeUTF(entry.getValue());
             });
             Map<SectionType, AbstractSection> sections = resume.getSections();
-            writeWithException(sections.entrySet(), dos, entry -> {SectionType type = entry.getKey();
+            writeWithException(sections.entrySet(), dos, entry -> {
+                SectionType type = entry.getKey();
                 AbstractSection section = entry.getValue();
                 dos.writeUTF(type.name());
                 // org -> listOrg-> section
@@ -116,8 +117,7 @@ public class DataStreamSerializer implements StreamSerializer {
     private LocalDate readDate(DataInputStream dis) throws IOException {
         int year = dis.readInt();
         Month month = Month.valueOf(dis.readUTF());
-        LocalDate date = DateUtil.of(year, month);
-        return date;
+        return DateUtil.of(year, month);
     }
 
     @FunctionalInterface
