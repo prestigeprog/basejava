@@ -1,4 +1,4 @@
-package com.urise.webapp.serializer;
+package com.urise.webapp.storage.serializer;
 
 import com.urise.webapp.model.*;
 import com.urise.webapp.util.DateUtil;
@@ -43,7 +43,7 @@ public class DataStreamSerializer implements StreamSerializer {
                                 LocalDate startD = pos.getStartDate();
                                 dos.writeInt(startD.getYear());
                                 dos.writeUTF(startD.getMonth().toString());
-                                LocalDate endD = pos.getStartDate();
+                                LocalDate endD = pos.getEndDate();
                                 dos.writeInt(endD.getYear());
                                 dos.writeUTF(endD.getMonth().toString());
                                 dos.writeUTF(pos.getTitle());
@@ -81,10 +81,12 @@ public class DataStreamSerializer implements StreamSerializer {
                 switch (sectionType) {
                     case EDUCATION, EXPERIENCE -> {
                         List<Organization> organizations = new ArrayList<>();
-                        for (int j = 0; j < dis.readInt(); j++) {
+                        int orgSize = dis.readInt();
+                        for (int j = 0; j < orgSize; j++) {
                             Link link = new Link(dis.readUTF(), dis.readUTF());
                             List<Organization.Position> positions = new ArrayList<>();
-                            for (int p = 0; p < dis.readInt(); i++) {
+                            int posSize = dis.readInt();
+                            for (int p = 0; p < posSize; p++) {
                                 int startYear = dis.readInt();
                                 Month startMonth = Month.valueOf(dis.readUTF());
                                 LocalDate startD = DateUtil.of(startYear, startMonth);
@@ -104,7 +106,8 @@ public class DataStreamSerializer implements StreamSerializer {
                     }
                     case ACHIEVEMENT, QUALIFICATIONS -> {
                         List<String> aq = new ArrayList<>();
-                        for (int o = 0; o < dis.readInt(); o++) {
+                        int aqSize = dis.readInt();
+                        for (int o = 0; o < aqSize; o++) {
                             aq.add(dis.readUTF());
                         }
                         BulletedListSection bls = new BulletedListSection(aq);
