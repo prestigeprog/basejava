@@ -32,14 +32,21 @@ public class DataStreamSerializer implements StreamSerializer {
                 // org -> listOrg-> section
                 switch (type) {
                     case EDUCATION, EXPERIENCE -> writeWithException(((OrganizationSection) section).getOrganizations(), dos, organization -> {
-                        Link link = organization.getLink();
-                        dos.writeUTF(link.getName());
-                        dos.writeUTF(link.getUrl());
-                        writeWithException(organization.getPositions(), dos, position -> {
-                            writeDate(position, dos);
-                            dos.writeUTF(position.getTitle());
-                            dos.writeUTF(position.getDescription());
-                        });
+                        if (organization.getLink() == null) {
+                            dos.writeUTF("no web page");
+                            dos.writeUTF("null");
+                        } else {
+                            Link link = organization.getLink();
+                            dos.writeUTF(link.getName());
+                            dos.writeUTF(link.getUrl());
+                            writeWithException(organization.getPositions(), dos, position -> {
+                                writeDate(position, dos);
+                                dos.writeUTF(position.getTitle());
+                                dos.writeUTF(position.getDescription());
+
+
+                            });
+                        }
                     });
                     case PERSONAL, OBJECTIVE -> dos.writeUTF(((SimpleTextSection) section).getDescription());
                     case ACHIEVEMENT, QUALIFICATIONS -> writeWithException(((BulletedListSection) section).getList(), dos, dos::writeUTF);
@@ -126,6 +133,4 @@ public class DataStreamSerializer implements StreamSerializer {
             cw.write(object);
         }
     }
-
-
 }
