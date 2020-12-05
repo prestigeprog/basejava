@@ -7,6 +7,7 @@ import java.io.*;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -30,35 +31,18 @@ public class DataStreamSerializer implements StreamSerializer {
                 dos.writeUTF(type.name());
                 // org -> listOrg-> section
                 switch (type) {
-                    case EDUCATION, EXPERIENCE -> {
-                        List<Organization> orgList = ((OrganizationSection) section).getOrganizations();
-                        dos.writeInt(orgList.size());
-                        for (Organization organization : orgList) {
-                            Link link = organization.getLink();
-                            dos.writeUTF(link.getName());
-                            dos.writeUTF(link.getUrl());
-                            List<Organization.Position> positions = organization.getPositions();
-                            dos.writeInt(positions.size());
-                            for (Organization.Position pos : positions) {
-                                LocalDate startD = pos.getStartDate();
-                                dos.writeInt(startD.getYear());
-                                dos.writeUTF(startD.getMonth().toString());
-                                LocalDate endD = pos.getEndDate();
-                                dos.writeInt(endD.getYear());
-                                dos.writeUTF(endD.getMonth().toString());
-                                dos.writeUTF(pos.getTitle());
-                                dos.writeUTF(pos.getDescription());
-                            }
-                        }
-                    }
+                    case EDUCATION, EXPERIENCE -> writeWithException(((OrganizationSection) section).getOrganizations(), dos, organization -> {
+                        Link link = organization.getLink();
+                        dos.writeUTF(link.getName());
+                        dos.writeUTF(link.getUrl());
+                        writeWithException(organization.getPositions(), dos, position -> {
+                            writeDate(position, dos);
+                            dos.writeUTF(position.getTitle());
+                            dos.writeUTF(position.getDescription());
+                        });
+                    });
                     case PERSONAL, OBJECTIVE -> dos.writeUTF(((SimpleTextSection) section).getDescription());
-                    case ACHIEVEMENT, QUALIFICATIONS -> {
-                        List<String> textList = ((BulletedListSection) section).getList();
-                        dos.writeInt(textList.size());
-                        for (String content : textList) {
-                            dos.writeUTF(content);
-                        }
-                    }
+                    case ACHIEVEMENT, QUALIFICATIONS -> writeWithException(((BulletedListSection) section).getList(), dos, dos::writeUTF);
                 }
             }
         }
@@ -87,12 +71,8 @@ public class DataStreamSerializer implements StreamSerializer {
                             List<Organization.Position> positions = new ArrayList<>();
                             int posSize = dis.readInt();
                             for (int p = 0; p < posSize; p++) {
-                                int startYear = dis.readInt();
-                                Month startMonth = Month.valueOf(dis.readUTF());
-                                LocalDate startD = DateUtil.of(startYear, startMonth);
-                                int endYear = dis.readInt();
-                                Month endMonth = Month.valueOf(dis.readUTF());
-                                LocalDate endD = DateUtil.of(endYear, endMonth);
+                                LocalDate startD = readDate(dis);
+                                LocalDate endD = readDate(dis);
                                 positions.add(new Organization.Position(startD, endD, dis.readUTF(), dis.readUTF()));
                             }
                             organizations.add(new Organization(link, positions));
@@ -118,4 +98,34 @@ public class DataStreamSerializer implements StreamSerializer {
             return resume;
         }
     }
+
+    private void writeDate(Organization.Position pos, DataOutputStream dos) throws IOException {
+        LocalDate startD = pos.getStartDate();
+        dos.writeInt(startD.getYear());
+        dos.writeUTF(startD.getMonth().name());
+        LocalDate endD = pos.getEndDate();
+        dos.writeInt(endD.getYear());
+        dos.writeUTF(endD.getMonth().name());
+    }
+
+    private LocalDate readDate(DataInputStream dis) throws IOException {
+        int year = dis.readInt();
+        Month month = Month.valueOf(dis.readUTF());
+        LocalDate date = DateUtil.of(year, month);
+        return date;
+    }
+
+    @FunctionalInterface
+    private interface CustomWriter<T> {
+        void write(T o) throws IOException;
+    }
+
+    private <T> void writeWithException(Collection<T> collection, DataOutputStream dos, CustomWriter<T> cw) throws IOException {
+        dos.writeInt(collection.size());
+        for (T object : collection) {
+            cw.write(object);
+        }
+    }
+
+
 }

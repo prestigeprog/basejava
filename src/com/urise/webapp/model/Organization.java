@@ -31,11 +31,17 @@ public class Organization implements Serializable {
         this(new Link(name, url), Arrays.asList(positions));
     }
 
+    public Organization(Position... positions) {
+        this(new Link("name", "url"), Arrays.asList(positions));
+    }
+
     public Organization(Link link, List<Position> positions) {
         Objects.requireNonNull(positions, "positions must not be null");
         this.positions = positions;
         this.link = link;
     }
+
+
 
     @Override
     public boolean equals(Object o) {

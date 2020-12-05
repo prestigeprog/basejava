@@ -51,7 +51,8 @@ public class ResumeTestData {
 
 
         List<Organization> organizations = new ArrayList<>();
-        Organization org1 = new Organization("Java Online Projects", "https://javaops.ru/",
+        // "Java Online Projects", "https://javaops.ru/",
+        Organization org1 = new Organization(
                 new Organization.Position(2013, Month.OCTOBER, "Java Online Projects",
                         "Автор проекта.\n Создание, организация и проведение Java онлайн проектов и стажировок."));
         Organization org2 = new Organization("Wrike", "www.wrike.com//",
