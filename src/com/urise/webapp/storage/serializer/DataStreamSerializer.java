@@ -55,7 +55,6 @@ public class DataStreamSerializer implements StreamSerializer {
                     case ACHIEVEMENT, QUALIFICATIONS -> writeWithException(((BulletedListSection) section).getList(), dos, dos::writeUTF);
                 }
             });
-
         }
     }
 
@@ -69,31 +68,28 @@ public class DataStreamSerializer implements StreamSerializer {
             for (int i = 0; i < sizeContacts; i++) {
                 resume.setContact(ContactType.valueOf(dis.readUTF()), dis.readUTF());
             }
-            int sizeSections = dis.readInt();
-            for (int i = 0; i < sizeSections; i++) {
+            readWithException(dis, () -> {
                 SectionType sectionType = SectionType.valueOf(dis.readUTF());
                 //section -> listOrg-> org
                 switch (sectionType) {
                     case EDUCATION, EXPERIENCE -> {
                         List<Organization> organizations = new ArrayList<>();
-                        int orgSize = dis.readInt();
-                        for (int j = 0; j < orgSize; j++) {
+                        readWithException(dis, () -> {
                             String name = dis.readUTF();
                             String url = dis.readUTF();
                             url = (url.equals("no website")) ? null : url;
                             Link link = new Link(name, url);
                             List<Organization.Position> positions = new ArrayList<>();
-                            int posSize = dis.readInt();
-                            for (int p = 0; p < posSize; p++) {
+                            readWithException(dis, () -> {
                                 LocalDate startD = readDate(dis);
                                 LocalDate endD = readDate(dis);
                                 String title = dis.readUTF();
                                 String description = dis.readUTF();
                                 description = (description.equals("no description")) ? null : description;
                                 positions.add(new Organization.Position(startD, endD, title, description));
-                            }
+                            });
                             organizations.add(new Organization(link, positions));
-                        }
+                        });
                         OrganizationSection os = new OrganizationSection(organizations);
                         resume.setSection(sectionType, os);
                     }
@@ -103,15 +99,12 @@ public class DataStreamSerializer implements StreamSerializer {
                     }
                     case ACHIEVEMENT, QUALIFICATIONS -> {
                         List<String> aq = new ArrayList<>();
-                        int aqSize = dis.readInt();
-                        for (int o = 0; o < aqSize; o++) {
-                            aq.add(dis.readUTF());
-                        }
+                        readWithException(dis, () -> aq.add(dis.readUTF()));
                         BulletedListSection bls = new BulletedListSection(aq);
                         resume.setSection(sectionType, bls);
                     }
                 }
-            }
+            });
             return resume;
         }
     }
@@ -136,6 +129,18 @@ public class DataStreamSerializer implements StreamSerializer {
         dos.writeInt(collection.size());
         for (T object : collection) {
             cw.write(object);
+        }
+    }
+
+    @FunctionalInterface
+    private interface CustomReader {
+        void read() throws IOException;
+    }
+
+    private void readWithException(DataInputStream dis, CustomReader cr) throws IOException {
+        int size = dis.readInt();
+        for (int j = 0; j < size; j++) {
+            cr.read();
         }
     }
 }
