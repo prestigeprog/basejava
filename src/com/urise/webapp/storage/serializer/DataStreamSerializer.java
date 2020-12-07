@@ -38,8 +38,10 @@ public class DataStreamSerializer implements StreamSerializer {
                             dos.writeUTF(link.getUrl());
                         }
                         writeWithException(organization.getPositions(), dos, position -> {
-                            writeStartDate(position, dos);
-                            writeEndDate(position, dos);
+                            LocalDate startDate = position.getStartDate();
+                            writeDate(startDate, dos);
+                            LocalDate endDate = position.getEndDate();
+                            writeDate(endDate, dos);
                             dos.writeUTF(position.getTitle());
                             if (position.getDescription() == null) {
                                 dos.writeUTF("no description");
@@ -78,9 +80,7 @@ public class DataStreamSerializer implements StreamSerializer {
                         for (int j = 0; j < orgSize; j++) {
                             String name = dis.readUTF();
                             String url = dis.readUTF();
-                            if (url.equals("no website")) {
-                                url = null;
-                            }
+                            url = (url.equals("no website")) ? null : url;
                             Link link = new Link(name, url);
                             List<Organization.Position> positions = new ArrayList<>();
                             int posSize = dis.readInt();
@@ -89,9 +89,7 @@ public class DataStreamSerializer implements StreamSerializer {
                                 LocalDate endD = readDate(dis);
                                 String title = dis.readUTF();
                                 String description = dis.readUTF();
-                                if(description.equals("no description")) {
-                                    description = null;
-                                }
+                                description = (description.equals("no description")) ? null : description;
                                 positions.add(new Organization.Position(startD, endD, title, description));
                             }
                             organizations.add(new Organization(link, positions));
@@ -118,14 +116,7 @@ public class DataStreamSerializer implements StreamSerializer {
         }
     }
 
-    private void writeStartDate(Organization.Position pos, DataOutputStream dos) throws IOException {
-        LocalDate date = pos.getStartDate();
-        dos.writeInt(date.getYear());
-        dos.writeUTF(date.getMonth().name());
-    }
-
-    private void writeEndDate(Organization.Position pos, DataOutputStream dos) throws IOException {
-        LocalDate date = pos.getEndDate();
+    private void writeDate(LocalDate date, DataOutputStream dos) throws IOException {
         dos.writeInt(date.getYear());
         dos.writeUTF(date.getMonth().name());
     }
