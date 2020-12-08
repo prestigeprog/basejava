@@ -32,22 +32,14 @@ public class DataStreamSerializer implements StreamSerializer {
                     case EDUCATION, EXPERIENCE -> writeWithException(((OrganizationSection) section).getOrganizations(), dos, organization -> {
                         Link link = organization.getLink();
                         dos.writeUTF(link.getName());
-                        if (link.getUrl() == null) {
-                            dos.writeUTF("no website");
-                        } else {
-                            dos.writeUTF(link.getUrl());
-                        }
+                        dos.writeUTF(link.getUrl() == null ? "no website" : link.getUrl());
                         writeWithException(organization.getPositions(), dos, position -> {
                             LocalDate startDate = position.getStartDate();
                             writeDate(startDate, dos);
                             LocalDate endDate = position.getEndDate();
                             writeDate(endDate, dos);
                             dos.writeUTF(position.getTitle());
-                            if (position.getDescription() == null) {
-                                dos.writeUTF("no description");
-                            } else {
-                                dos.writeUTF(position.getDescription());
-                            }
+                            dos.writeUTF(position.getDescription() == null ? "no description" : position.getDescription());
                         });
 
                     });
