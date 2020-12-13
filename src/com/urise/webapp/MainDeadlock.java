@@ -2,30 +2,32 @@ package com.urise.webapp;
 
 public class MainDeadlock {
 
-    public static Object Lock1 = new Object();
-    public static Object Lock2 = new Object();
+    public static Object lock1 = new Object();
+    public static Object lock2 = new Object();
 
     public static void main(String[] args) {
-        Thread t1 = new Thread(() ->
-                testDeadLock(Lock1, Lock2)
-                );
-        t1.start();
-        Thread t2 = new Thread(() ->
-                testDeadLock(Lock2, Lock1)
-        );
-        t2.start();
+        new Thread(() ->
+                testDeadLock(lock1, lock2)
+        ).start();
+        new Thread(() ->
+                testDeadLock(lock2, lock1)
+        ).start();
+
     }
 
-    private static void testDeadLock(Object lock1, Object lock2){
+    private static void testDeadLock(Object lock1, Object lock2) {
         synchronized (lock2) {
-            System.out.println(Thread.currentThread().getName() + ": Holding lock ..");
+            System.out.println(Thread.currentThread().getName() + ": Holding lock" + lock2.toString() + "..");
 
-            try { Thread.sleep(10); }
-            catch (InterruptedException e) {}
-            System.out.println(Thread.currentThread().getName() + ": Waiting for lock ...");
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                throw new RuntimeException();
+            }
+            System.out.println(Thread.currentThread().getName() + ": Waiting for lock " + lock2.toString() + "...");
 
             synchronized (lock1) {
-                System.out.println(Thread.currentThread().getName() + ": Holding lock...");
+                System.out.println(Thread.currentThread().getName() + ": Holding lock " + lock1.toString() + "...");
             }
         }
     }
