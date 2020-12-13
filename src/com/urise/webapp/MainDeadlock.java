@@ -22,7 +22,7 @@ public class MainDeadlock {
             try {
                 Thread.sleep(10);
             } catch (InterruptedException e) {
-                throw new RuntimeException();
+                throw new RuntimeException(e);
             }
             System.out.println(Thread.currentThread().getName() + ": Waiting for lock " + lock1.toString() + "...");
 

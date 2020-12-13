@@ -22,8 +22,7 @@ public class DataStreamSerializer implements StreamSerializer {
                 dos.writeUTF(entry.getKey().name());
                 dos.writeUTF(entry.getValue());
             });
-            Map<SectionType, AbstractSection> sections = resume.getSections();
-            writeWithException(sections.entrySet(), dos, entry -> {
+            writeWithException(resume.getSections().entrySet(), dos, entry -> {
                 SectionType type = entry.getKey();
                 AbstractSection section = entry.getValue();
                 dos.writeUTF(type.name());
@@ -34,10 +33,8 @@ public class DataStreamSerializer implements StreamSerializer {
                         dos.writeUTF(link.getName());
                         dos.writeUTF(link.getUrl() == null ? "no website" : link.getUrl());
                         writeWithException(organization.getPositions(), dos, position -> {
-                            LocalDate startDate = position.getStartDate();
-                            writeDate(startDate, dos);
-                            LocalDate endDate = position.getEndDate();
-                            writeDate(endDate, dos);
+                            writeDate(position.getStartDate(), dos);
+                            writeDate(position.getEndDate(), dos);
                             dos.writeUTF(position.getTitle());
                             dos.writeUTF(position.getDescription() == null ? "no description" : position.getDescription());
                         });
@@ -59,44 +56,48 @@ public class DataStreamSerializer implements StreamSerializer {
             readWithException(dis, () -> resume.setContact(ContactType.valueOf(dis.readUTF()), dis.readUTF()));
             readWithException(dis, () -> {
                 SectionType sectionType = SectionType.valueOf(dis.readUTF());
+                resume.setSection(sectionType, readSection(dis, sectionType));
                 //section -> listOrg-> org
-                switch (sectionType) {
-                    case EDUCATION, EXPERIENCE -> {
-                        List<Organization> organizations = new ArrayList<>();
-                        readWithException(dis, () -> {
-                            String name = dis.readUTF();
-                            String url = dis.readUTF();
-                            url = (url.equals("no website")) ? null : url;
-                            Link link = new Link(name, url);
-                            List<Organization.Position> positions = new ArrayList<>();
-                            readWithException(dis, () -> {
-                                LocalDate startD = readDate(dis);
-                                LocalDate endD = readDate(dis);
-                                String title = dis.readUTF();
-                                String description = dis.readUTF();
-                                description = (description.equals("no description")) ? null : description;
-                                positions.add(new Organization.Position(startD, endD, title, description));
-                            });
-                            organizations.add(new Organization(link, positions));
-                        });
-                        OrganizationSection os = new OrganizationSection(organizations);
-                        resume.setSection(sectionType, os);
-                    }
-                    case PERSONAL, OBJECTIVE -> {
-                        SimpleTextSection sts = new SimpleTextSection(dis.readUTF());
-                        resume.setSection(sectionType, sts);
-                    }
-                    case ACHIEVEMENT, QUALIFICATIONS -> {
-                        List<String> aq = new ArrayList<>();
-                        readWithException(dis, () -> aq.add(dis.readUTF()));
-                        BulletedListSection bls = new BulletedListSection(aq);
-                        resume.setSection(sectionType, bls);
-                    }
-                }
             });
             return resume;
         }
     }
+
+    private AbstractSection readSection(DataInputStream dis, SectionType sectionType) throws IOException {
+        switch (sectionType) {
+            case EDUCATION, EXPERIENCE -> {
+                List<Organization> organizations = new ArrayList<>();
+                readWithException(dis, () -> {
+                    String name = dis.readUTF();
+                    String url = dis.readUTF();
+                    url = (url.equals("no website")) ? null : url;
+                    Link link = new Link(name, url);
+                    List<Organization.Position> positions = new ArrayList<>();
+                    readWithException(dis, () -> {
+                        LocalDate startD = readDate(dis);
+                        LocalDate endD = readDate(dis);
+                        String title = dis.readUTF();
+                        String description = dis.readUTF();
+                        description = (description.equals("no description")) ? null : description;
+                        positions.add(new Organization.Position(startD, endD, title, description));
+                    });
+                    organizations.add(new Organization(link, positions));
+                });
+                OrganizationSection os = new OrganizationSection(organizations);
+                return os;
+            }
+            case PERSONAL, OBJECTIVE -> {
+                return new SimpleTextSection(dis.readUTF());
+            }
+            case ACHIEVEMENT, QUALIFICATIONS -> {
+                List<String> aq = new ArrayList<>();
+                readWithException(dis, () -> aq.add(dis.readUTF()));
+                return new BulletedListSection(aq);
+            }
+            default -> throw new IllegalStateException();
+        }
+    }
+
 
     private void writeDate(LocalDate date, DataOutputStream dos) throws IOException {
         dos.writeInt(date.getYear());
