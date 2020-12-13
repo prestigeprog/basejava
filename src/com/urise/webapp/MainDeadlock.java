@@ -24,7 +24,7 @@ public class MainDeadlock {
             } catch (InterruptedException e) {
                 throw new RuntimeException();
             }
-            System.out.println(Thread.currentThread().getName() + ": Waiting for lock " + lock2.toString() + "...");
+            System.out.println(Thread.currentThread().getName() + ": Waiting for lock " + lock1.toString() + "...");
 
             synchronized (lock1) {
                 System.out.println(Thread.currentThread().getName() + ": Holding lock " + lock1.toString() + "...");
