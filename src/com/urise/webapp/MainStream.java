@@ -24,13 +24,8 @@ public class MainStream {
 
 
     private int minValue(int[] values) {
-        int[] n1 = {1};
-        int[] num1 = {0};
-        Arrays.stream(values).distinct().boxed().sorted(Collections.reverseOrder()).forEach(k -> {
-            num1[0] += n1[0] * k;
-            n1[0] = n1[0] * 10;
-        });
-        return num1[0];
+        return Arrays.stream(values).distinct().boxed().sorted(Collections.reverseOrder())
+                .reduce(0, (a, b) -> (a + b * (int) (a == 0 ? 1 : Math.pow(10, (int) (Math.log10(a) + 1)))));
     }
 
     private List<Integer> oddOrEven(List<Integer> integers) {
