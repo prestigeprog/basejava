@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class MainStream {
     private int[] values = {1, 2, 3, 3, 2, 3};
@@ -23,18 +24,19 @@ public class MainStream {
 
 
     private int minValue(int[] values) {
-        AtomicInteger n = new AtomicInteger(1);
-        AtomicInteger num = new AtomicInteger(0);
+        int[] n1 = {1};
+        int[] num1 = {0};
         Arrays.stream(values).distinct().boxed().sorted(Collections.reverseOrder()).forEach(k -> {
-            num.addAndGet(n.get() * k);
-            n.updateAndGet(v -> v * 10);
+            num1[0] += n1[0] * k;
+            n1[0] = n1[0] * 10;
         });
-        return num.get();
+        return num1[0];
     }
 
     private List<Integer> oddOrEven(List<Integer> integers) {
-        return integers.stream().mapToInt(Integer::intValue).sum() % 2 == 0 ?
-                integers.stream().filter(n -> n % 2 == 1).collect(Collectors.toList()) :
-                integers.stream().filter(n -> n % 2 == 0).collect(Collectors.toList());
+        Supplier<Stream<Integer>> streamSupplier = integers::stream;
+        return streamSupplier.get().mapToInt(Integer::intValue).sum() % 2 == 0 ?
+                streamSupplier.get().filter(n -> n % 2 == 1).collect(Collectors.toList()) :
+                streamSupplier.get().filter(n -> n % 2 == 0).collect(Collectors.toList());
     }
 }
