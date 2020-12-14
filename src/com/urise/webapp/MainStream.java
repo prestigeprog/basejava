@@ -9,8 +9,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class MainStream {
-    private int[] values = {1, 2, 3, 3, 2, 3};
-    private int[] values2 = {9, 8};
+    private final int[] values = {1, 2, 3, 3, 2, 3};
+    private final int[] values2 = {9, 8};
 
     List<Integer> integers = new ArrayList<>(Arrays.asList(10, 3, 20));
 
