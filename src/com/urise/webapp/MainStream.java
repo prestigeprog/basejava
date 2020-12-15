@@ -2,7 +2,6 @@ package com.urise.webapp;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -24,13 +23,14 @@ public class MainStream {
 
 
     private int minValue(int[] values) {
-        return Arrays.stream(values).distinct().boxed().sorted(Collections.reverseOrder())
-                .reduce(0, (a, b) -> (a + b * (int) (a == 0 ? 1 : Math.pow(10, (int) (Math.log10(a) + 1)))));
+        return Arrays.stream(values).distinct().sorted()
+                .reduce(0, (a,b) -> 10 * a + b);
     }
 
     private List<Integer> oddOrEven(List<Integer> integers) {
         Supplier<Stream<Integer>> streamSupplier = integers::stream;
-        return streamSupplier.get().mapToInt(Integer::intValue).sum() % 2 == 0 ?
+        int sum = streamSupplier.get().mapToInt(Integer::intValue).sum();
+        return sum % 2 == 0 ?
                 streamSupplier.get().filter(n -> n % 2 == 1).collect(Collectors.toList()) :
                 streamSupplier.get().filter(n -> n % 2 == 0).collect(Collectors.toList());
     }
