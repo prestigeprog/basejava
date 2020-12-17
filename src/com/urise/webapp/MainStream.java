@@ -35,10 +35,6 @@ public class MainStream {
     }
 
     private boolean isEven(int sum, int i) {
-        if (sum % 2 == 0) {
-            return i % 2 == 1;
-        } else {
-            return i % 2 == 0;
-        }
+        return sum % 2 == 0 ? i % 2 == 1 : i % 2 == 0;
     }
 }
