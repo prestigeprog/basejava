@@ -9,7 +9,7 @@ public class MainStream {
     private final int[] values = {1, 2, 3, 3, 2, 3};
     private final int[] values2 = {9, 8};
 
-    List<Integer> integers = new ArrayList<>(Arrays.asList(10, 3, 20, 1));
+    List<Integer> integers = new ArrayList<>(Arrays.asList(10, 3, 20,1));
 
     public static void main(String[] args) {
         MainStream mainStream = new MainStream();
@@ -30,11 +30,11 @@ public class MainStream {
     private List<Integer> oddOrEven(List<Integer> integers) {
         int sum = integers.stream().mapToInt(Integer::intValue).sum();
         return integers.stream()
-                .filter(n -> isEven(sum, n))
+                .filter(n -> isEven(sum) != isEven(n))
                 .collect(Collectors.toList());
     }
 
-    private boolean isEven(int sum, int i) {
-        return sum % 2 == 0 ? i % 2 == 1 : i % 2 == 0;
+    private boolean isEven(int i) {
+        return i % 2 == 0;
     }
 }
