@@ -30,11 +30,7 @@ public class MainStream {
     private List<Integer> oddOrEven(List<Integer> integers) {
         int sum = integers.stream().mapToInt(Integer::intValue).sum();
         return integers.stream()
-                .filter(n -> isEven(sum) != isEven(n))
+                .filter(n -> n % 2 != sum % 2)
                 .collect(Collectors.toList());
-    }
-
-    private boolean isEven(int i) {
-        return i % 2 == 0;
     }
 }
