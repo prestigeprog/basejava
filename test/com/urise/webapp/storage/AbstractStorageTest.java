@@ -12,6 +12,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.UUID;
 
 import static com.urise.webapp.ResumeTestData.createFilledResume;
 import static org.junit.Assert.assertEquals;
@@ -21,16 +22,16 @@ public abstract class AbstractStorageTest {
 
     final Storage storage;
 
-    private static final String UUID_1 = "uuid1";
+    private static final String UUID_1 = UUID.randomUUID().toString();
     private static final Resume R1 = createFilledResume(UUID_1, "Barry Allen");
 
-    private static final String UUID_2 = "uuid2";
+    private static final String UUID_2 = UUID.randomUUID().toString();
     private static final Resume R2 = createFilledResume(UUID_2, "Lex Lutor");
 
-    private static final String UUID_3 = "uuid3";
+    private static final String UUID_3 = UUID.randomUUID().toString();
     private static final Resume R3 = createFilledResume(UUID_3, "Oliver Queen");
 
-    private static final String UUID_4 = "uuid4";
+    private static final String UUID_4 = UUID.randomUUID().toString();
     private static final Resume R4 = createFilledResume(UUID_4, "Diana Prince");
 
     public AbstractStorageTest(Storage storage) {
