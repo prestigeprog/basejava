@@ -1,5 +1,6 @@
 package com.urise.webapp;
 
+import com.urise.webapp.model.ContactType;
 import com.urise.webapp.model.Resume;
 
 public class ResumeTestData {
@@ -129,21 +130,21 @@ public class ResumeTestData {
 //        AbstractSection work1 = new OrganizationSection(organizations);
 //        AbstractSection edu1 = new OrganizationSection(eduList);
 //
-//        String contact1 = "+7(921) 855-0482"; //phone
-//        String contact2 = "grigory.kislin"; //skype
-//        String contact3 = "gkislin@yandex.ru"; //email
-//        String contact4 = "linkedin: https://www.linkedin.com/in/gkislin"; //linkedin
-//        String contact5 = "github: https://github.com/gkislin"; //github
-//        String contact6 = "stackoverflow: https://stackoverflow.com/users/548473/grigory-kislin"; //stackoverflow
-//        String contact7 = "http://gkislin.ru/";//homepage
-//
-//        r1.setContact(ContactType.PHONE, contact1);
-//        r1.setContact(ContactType.SKYPE, contact2);
-//        r1.setContact(ContactType.EMAIL, contact3);
-//        r1.setContact(ContactType.LINKEDIN, contact4);
-//        r1.setContact(ContactType.GITHUB, contact5);
-//        r1.setContact(ContactType.STACKOVERFLOW, contact6);
-//        r1.setContact(ContactType.HOMEPAGE, contact7);
+        String contact1 = "+7(921) 855-0482"; //phone
+        String contact2 = "grigory.kislin"; //skype
+        String contact3 = "gkislin@yandex.ru"; //email
+        String contact4 = "linkedin: https://www.linkedin.com/in/gkislin"; //linkedin
+        String contact5 = "github: https://github.com/gkislin"; //github
+        String contact6 = "stackoverflow: https://stackoverflow.com/users/548473/grigory-kislin"; //stackoverflow
+        String contact7 = "http://gkislin.ru/";//homepage
+
+        r1.setContact(ContactType.PHONE, contact1);
+        r1.setContact(ContactType.SKYPE, contact2);
+        r1.setContact(ContactType.EMAIL, contact3);
+        r1.setContact(ContactType.LINKEDIN, contact4);
+        r1.setContact(ContactType.GITHUB, contact5);
+        r1.setContact(ContactType.STACKOVERFLOW, contact6);
+        r1.setContact(ContactType.HOMEPAGE, contact7);
 //
 //        r1.setSection(SectionType.PERSONAL, personal1);
 //        r1.setSection(SectionType.OBJECTIVE, objective1);
