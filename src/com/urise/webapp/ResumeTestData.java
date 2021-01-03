@@ -1,51 +1,50 @@
 package com.urise.webapp;
 
-import com.urise.webapp.model.ContactType;
-import com.urise.webapp.model.Resume;
+import com.urise.webapp.model.*;
 
 public class ResumeTestData {
     public static Resume createFilledResume(String uuid, String fullName) {
         Resume r1 = new Resume(uuid, fullName);
-//        AbstractSection objective1 = new SimpleTextSection("Ведущий стажировок и корпоративного обучения " +
-//                "по Java Web и Enterprise технологиям");
-//        AbstractSection personal1 = new SimpleTextSection("Аналитический склад ума, сильная логика, креативность, " +
-//                "инициативность. Пурист кода и архитектуры.");
-//
-//        AbstractSection achievements1 = new BulletedListSection("С 2013 года: разработка проектов \"Разработка Web приложения\"," +
-//                "\"Java Enterprise\"," +
-//                " \"Многомодульный maven. Многопоточность. XML (JAXB/StAX)." +
-//                " Веб сервисы (JAX-RS/SOAP). Удаленное взаимодействие (JMS/AKKA)\". " +
-//                "Организация онлайн стажировок и ведение проектов. Более 1000 выпускников.", "Реализация двухфакторной " +
-//                "аутентификации для онлайн платформы управления проектами Wrike. " +
-//                "Интеграция с Twilio, DuoSecurity, Google Authenticator, Jira, Zendesk.", "Налаживание процесса " +
-//                "разработки и непрерывной интеграции ERP системы River BPM. Интеграция с 1С, Bonita BPM, CMIS, LDAP. " +
-//                "Разработка приложения управления окружением на стеке: Scala/Play/Anorm/JQuery." +
-//                " Разработка SSO аутентификации и авторизации различных ERP модулей, интеграция CIFS/SMB java сервера.",
-//                "Реализация c нуля Rich Internet Application приложения на стеке технологий" +
-//                        " JPA, Spring, Spring-MVC, GWT, ExtGWT (GXT), Commet, HTML5, Highstock для алгоритмического трейдинга.",
-//                "Создание JavaEE фреймворка для отказоустойчивого взаимодействия слабо-связанных " +
-//                        "сервисов (SOA-base архитектура, JAX-WS, JMS, AS Glassfish). " +
-//                        "Сбор статистики сервисов и информации о состоянии через систему мониторинга Nagios. " +
-//                        "Реализация онлайн клиента для администрирования и мониторинга системы по JMX (Python/ Django).",
-//                "Реализация протоколов по приему платежей всех основных платежных системы России" +
-//                        " (Cyberplat, Eport, Chronopay, Сбербанк), Белоруcсии(Erip, Osmp) и Никарагуа.");
-//
-//        AbstractSection qualifications1 = new BulletedListSection("JEE AS: GlassFish (v2.1, v3), OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2",
-//                "Version control: Subversion, Git, Mercury, ClearCase, Perforce",
-//                "DB: PostgreSQL(наследование, pgplsql, PL/Python), Redis (Jedis), H2, Oracle,", "MySQL, SQLite, MS SQL, HSQLDB",
-//                "Languages: Java, Scala, Python/Jython/PL-Python, JavaScript, Groovy,", "XML/XSD/XSLT, SQL, C/C++, Unix shell scripts,",
-//                "Java Frameworks: Java 8 (Time API, Streams), Guava, Java Executor, MyBatis, " +
-//                        "Spring (MVC, Security, Data, Clouds, Boot), JPA (Hibernate, EclipseLink), " +
-//                        "Guice, GWT(SmartGWT, ExtGWT/GXT), Vaadin, Jasperreports, " +
-//                        "Apache Commons, Eclipse SWT, JUnit, Selenium (htmlelements).", "Python: Django.",
-//                "JavaScript: jQuery, ExtJS, Bootstrap.js, underscore.js", "Scala: SBT, Play2, Specs2, Anorm, Spray, Akka",
-//                "Технологии: Servlet, JSP/JSTL, JAX-WS, REST, EJB, RMI, JMS, JavaMail, JAXB, StAX, SAX," +
-//                        " DOM, XSLT, MDB, JMX, JDBC, JPA, JNDI, JAAS, SOAP, AJAX, Commet, HTML5, ESB, " +
-//                        "CMIS, BPMN2, LDAP, OAuth1, OAuth2, JWT.", "Инструменты: Maven + plugin development, Gradle, настройка Ngnix,",
-//                "администрирование Hudson/Jenkins, Ant + custom task, SoapUI, JPublisher, Flyway, " +
-//                        "Nagios, iReport, OpenCmis, Bonita, pgBouncer.", "Отличное знание и опыт применения концепций ООП, SOA, шаблонов проектрирования, " +
-//                "архитектурных шаблонов, UML, функционального программирования", "Родной русский, английский \"upper intermediate\"");
-//
+        AbstractSection objective1 = new SimpleTextSection("Ведущий стажировок и корпоративного обучения " +
+                "по Java Web и Enterprise технологиям");
+        AbstractSection personal1 = new SimpleTextSection("Аналитический склад ума, сильная логика, креативность, " +
+                "инициативность. Пурист кода и архитектуры.");
+
+        AbstractSection achievements1 = new BulletedListSection("С 2013 года: разработка проектов \"Разработка Web приложения\"," +
+                "\"Java Enterprise\"," +
+                " \"Многомодульный maven. Многопоточность. XML (JAXB/StAX)." +
+                " Веб сервисы (JAX-RS/SOAP). Удаленное взаимодействие (JMS/AKKA)\". " +
+                "Организация онлайн стажировок и ведение проектов. Более 1000 выпускников.", "Реализация двухфакторной " +
+                "аутентификации для онлайн платформы управления проектами Wrike. " +
+                "Интеграция с Twilio, DuoSecurity, Google Authenticator, Jira, Zendesk.", "Налаживание процесса " +
+                "разработки и непрерывной интеграции ERP системы River BPM. Интеграция с 1С, Bonita BPM, CMIS, LDAP. " +
+                "Разработка приложения управления окружением на стеке: Scala/Play/Anorm/JQuery." +
+                " Разработка SSO аутентификации и авторизации различных ERP модулей, интеграция CIFS/SMB java сервера.",
+                "Реализация c нуля Rich Internet Application приложения на стеке технологий" +
+                        " JPA, Spring, Spring-MVC, GWT, ExtGWT (GXT), Commet, HTML5, Highstock для алгоритмического трейдинга.",
+                "Создание JavaEE фреймворка для отказоустойчивого взаимодействия слабо-связанных " +
+                        "сервисов (SOA-base архитектура, JAX-WS, JMS, AS Glassfish). " +
+                        "Сбор статистики сервисов и информации о состоянии через систему мониторинга Nagios. " +
+                        "Реализация онлайн клиента для администрирования и мониторинга системы по JMX (Python/ Django).",
+                "Реализация протоколов по приему платежей всех основных платежных системы России" +
+                        " (Cyberplat, Eport, Chronopay, Сбербанк), Белоруcсии(Erip, Osmp) и Никарагуа.");
+
+        AbstractSection qualifications1 = new BulletedListSection("JEE AS: GlassFish (v2.1, v3), OC4J, JBoss, Tomcat, Jetty, WebLogic, WSO2",
+                "Version control: Subversion, Git, Mercury, ClearCase, Perforce",
+                "DB: PostgreSQL(наследование, pgplsql, PL/Python), Redis (Jedis), H2, Oracle,", "MySQL, SQLite, MS SQL, HSQLDB",
+                "Languages: Java, Scala, Python/Jython/PL-Python, JavaScript, Groovy,", "XML/XSD/XSLT, SQL, C/C++, Unix shell scripts,",
+                "Java Frameworks: Java 8 (Time API, Streams), Guava, Java Executor, MyBatis, " +
+                        "Spring (MVC, Security, Data, Clouds, Boot), JPA (Hibernate, EclipseLink), " +
+                        "Guice, GWT(SmartGWT, ExtGWT/GXT), Vaadin, Jasperreports, " +
+                        "Apache Commons, Eclipse SWT, JUnit, Selenium (htmlelements).", "Python: Django.",
+                "JavaScript: jQuery, ExtJS, Bootstrap.js, underscore.js", "Scala: SBT, Play2, Specs2, Anorm, Spray, Akka",
+                "Технологии: Servlet, JSP/JSTL, JAX-WS, REST, EJB, RMI, JMS, JavaMail, JAXB, StAX, SAX," +
+                        " DOM, XSLT, MDB, JMX, JDBC, JPA, JNDI, JAAS, SOAP, AJAX, Commet, HTML5, ESB, " +
+                        "CMIS, BPMN2, LDAP, OAuth1, OAuth2, JWT.", "Инструменты: Maven + plugin development, Gradle, настройка Ngnix,",
+                "администрирование Hudson/Jenkins, Ant + custom task, SoapUI, JPublisher, Flyway, " +
+                        "Nagios, iReport, OpenCmis, Bonita, pgBouncer.", "Отличное знание и опыт применения концепций ООП, SOA, шаблонов проектрирования, " +
+                "архитектурных шаблонов, UML, функционального программирования", "Родной русский, английский \"upper intermediate\"");
+
 //
 //        List<Organization> organizations = new ArrayList<>();
 //        // , ,"https://javaops.ru/"
@@ -145,11 +144,11 @@ public class ResumeTestData {
         r1.setContact(ContactType.GITHUB, contact5);
         r1.setContact(ContactType.STACKOVERFLOW, contact6);
         r1.setContact(ContactType.HOMEPAGE, contact7);
-//
-//        r1.setSection(SectionType.PERSONAL, personal1);
-//        r1.setSection(SectionType.OBJECTIVE, objective1);
-//        r1.setSection(SectionType.ACHIEVEMENT, achievements1);
-//        r1.setSection(SectionType.QUALIFICATIONS, qualifications1);
+
+        r1.setSection(SectionType.PERSONAL, personal1);
+        r1.setSection(SectionType.OBJECTIVE, objective1);
+        r1.setSection(SectionType.ACHIEVEMENT, achievements1);
+        r1.setSection(SectionType.QUALIFICATIONS, qualifications1);
 //        r1.setSection(SectionType.EXPERIENCE, work1);
 //        r1.setSection(SectionType.EDUCATION, edu1);
         return r1;
