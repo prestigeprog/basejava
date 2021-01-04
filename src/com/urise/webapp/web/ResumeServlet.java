@@ -5,9 +5,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.Writer;
+import java.io.PrintWriter;
 
 public class ResumeServlet extends HttpServlet {
+//    private  Storage storage;
+//
+//    @Override
+//    public void init() {
+//        storage = Config.get().getStorage();
+//    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("UTF-8");
@@ -16,26 +23,24 @@ public class ResumeServlet extends HttpServlet {
         //response.setHeader("Content-Type", "text/html: charset=UTF-8");
         String name = request.getParameter("name");
 
-        Writer out = response.getWriter();
-        out.write("<html><head><style>");
-        out.write("</TITLE></HEAD><BODY>");
-        out.write("<h2>HTML Table</h2><table style=\"width:100%\">");
-        out.write("<tr>\n" +
-                "    <th>Firstname</th>\n" +
-                "    <th>Lastname</th>\n" +
-                "    <th>Age</th>\n" +
-                "  </tr>");
-        out.write("<tr>\n" +
-                "    <td>Jill</td>\n" +
-                "    <td>Smith</td>\n" +
-                "    <td>50</td>\n" +
-                "  </tr>");
-        out.write("<tr>\n" +
-                "    <td>Eve</td>\n" +
-                "    <td>Jackson</td>\n" +
-                "    <td>94</td>\n" +
-                "  </tr>");
-        out.write("</table></body></html>");
+        PrintWriter writer = response.getWriter();
+        //List<Resume> list = storage.getAllSorted();
+
+        writer.println("<table>\n" +
+                "<tbody>\n" +
+                "<tr>\n" +
+                "<th>UUID</th>\n" +
+                "<th>Full Name</th>\n" +
+                "</tr>");
+
+        //for (Resume r : list) {
+            writer.println("<tr>");
+            //writer.println("<td>" + r.getUuid() + "</td>");
+            //writer.println("<td>" + r.getFullName() + "</td>");
+            writer.println("</tr>");
+        //}
+        writer.println("</tbody\n" +
+                "</table>");
     }
 
     @Override

@@ -30,8 +30,8 @@ public class SqlStorage implements Storage {
                     throw new NotExistStorageException(uuid);
                 }
             }
-            deleteContacts(conn, resume.getUuid());
-            deleteSections(conn, resume.getUuid());
+            deleteContacts(conn, uuid);
+            deleteSections(conn, uuid);
             saveContacts(conn, resume);
             saveSections(conn, resume);
             return null;
@@ -182,11 +182,8 @@ public class SqlStorage implements Storage {
                         case PERSONAL, OBJECTIVE -> ps.setString(3, ((SimpleTextSection) section).getDescription());
                         case QUALIFICATIONS, ACHIEVEMENT -> {
                             List<String> list = ((BulletedListSection) section).getList();
-                            StringBuilder sb = new StringBuilder();
-                            for (String item : list) {
-                                sb.append(item).append("\n");
-                            }
-                            ps.setString(3, sb.toString());
+                            String listItem = String.join("\n", list);
+                            ps.setString(3, listItem);
                         }
                     }
                     ps.addBatch();
