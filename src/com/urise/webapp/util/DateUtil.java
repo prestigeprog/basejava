@@ -8,7 +8,7 @@ public class DateUtil {
     public static final LocalDate NOW = LocalDate.of(3000 , 1, 1);
 
     public static LocalDate parse(String date){
-        LocalDate localDate =  LocalDate.parse(date,  DateTimeFormatter.ofPattern("ddMMyyyy"));
+        LocalDate localDate =  LocalDate.parse(date,  DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         return of(localDate.getYear(), localDate.getMonth());
     }
 
