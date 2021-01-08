@@ -4,6 +4,7 @@ import com.urise.webapp.Config;
 import com.urise.webapp.model.*;
 import com.urise.webapp.storage.Storage;
 import com.urise.webapp.util.DateUtil;
+import com.urise.webapp.util.HtmlUtil;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -44,9 +45,11 @@ public class ResumeServlet extends HttpServlet {
                 for (SectionType type : new SectionType[]{SectionType.EXPERIENCE, SectionType.EDUCATION}) {
                     OrganizationSection section = (OrganizationSection) r.getSection(type);
                     List<Organization> organizations = new ArrayList<>();
+                    organizations.add(Organization.EMPTY);
                     if (section != null) {
                         for (Organization org : section.getOrganizations()) {
                             List<Organization.Position> positions = new ArrayList<>();
+                            positions.add(Organization.Position.EMPTY);
                             positions.addAll(org.getPositions());
                             organizations.add(new Organization(org.getLink(), positions));
                         }
@@ -71,7 +74,7 @@ public class ResumeServlet extends HttpServlet {
         r.setFullName(fullName);
         for (ContactType type : ContactType.values()) {
             String value = request.getParameter(type.name());
-            if (value != null && value.trim().length() != 0) {
+            if (!HtmlUtil.isEmpty(value)) {
                 r.setContact(type, value);
             } else {
                 r.getContacts().remove(type);
@@ -80,7 +83,7 @@ public class ResumeServlet extends HttpServlet {
         for (SectionType type : SectionType.values()) {
             String value = request.getParameter(type.name());
             String[] values = request.getParameterValues(type.name());
-            if (value == null && value.trim().length() == 0) {
+            if (HtmlUtil.isEmpty(value)) {
                 r.getSections().remove(type);
             } else {
                 switch (type) {
@@ -91,7 +94,7 @@ public class ResumeServlet extends HttpServlet {
                         String[] urls = request.getParameterValues(type.name() + "url");
                         for (int i = 0; i < values.length; i++) {
                             String name = values[i];
-                            if (name != null && name.trim().length() != 0) {
+                            if (!HtmlUtil.isEmpty(name)) {
                                 List<Organization.Position> positions = new ArrayList<>();
                                 String numType = type.name() + i;
                                 String[] startDates = request.getParameterValues(numType + "startDate");

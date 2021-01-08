@@ -36,11 +36,7 @@
         <li><%=((SimpleTextSection)section).getDescription()%></li>
         <br>
         <hr>
-
         </c:when>
-
-
-
         <c:when test="${type=='QUALIFICATIONS' || type=='ACHIEVEMENT'}">
 
             <c:forEach var="item" items="<%=((BulletedListSection) section).getList()%>">

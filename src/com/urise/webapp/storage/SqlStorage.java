@@ -174,7 +174,7 @@ public class SqlStorage implements Storage {
                     ps.setString(1, resume.getUuid());
                     ps.setString(2, e.getKey().name());
                     AbstractSection section = e.getValue();
-                    ps.setString(3, JsonParser.write(section, AbstractSection.class));
+                    ps.setString(3, ( JsonParser.write(section, AbstractSection.class)));
                     ps.addBatch();
                 }
                 ps.executeBatch();

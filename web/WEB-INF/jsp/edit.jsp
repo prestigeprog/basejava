@@ -34,16 +34,12 @@
 
         <dt>${type1.title}</dt><br>
             <c:choose>
-
                 <c:when test="${type1=='PERSONAL' || type1=='OBJECTIVE'}">
-                    <textarea  name='${type1}' cols=100 rows=5> <%=section%> </textarea><br>
+                    <textarea  name='${type1}' cols=100 rows=3> <%=section%> </textarea><br>
                 </c:when>
-
                 <c:when test="${type1=='QUALIFICATIONS' || type1=='ACHIEVEMENT'}">
                     <textarea name='${type1}' cols=100
                               rows=5><%=String.join("\n", ((BulletedListSection) section).getList())%></textarea><br>
-
-
                 </c:when>
                 <c:when test="${type1=='EXPERIENCE' || type1=='EDUCATION'}">
                     <c:forEach var="org" items="<%=((OrganizationSection) section).getOrganizations()%>" varStatus="counter">
