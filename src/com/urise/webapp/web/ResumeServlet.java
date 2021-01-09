@@ -35,26 +35,47 @@ public class ResumeServlet extends HttpServlet {
         }
         Resume r;
         switch (action) {
+            case "add" -> r = Resume.EMPTY;
             case "delete" -> {
                 storage.delete(uuid);
                 response.sendRedirect("resume");
                 return;
             }
-            case "view", "edit" -> {
+            case "view" -> r = storage.get(uuid);
+            case "edit" -> {
                 r = storage.get(uuid);
-                for (SectionType type : new SectionType[]{SectionType.EXPERIENCE, SectionType.EDUCATION}) {
-                    OrganizationSection section = (OrganizationSection) r.getSection(type);
-                    List<Organization> organizations = new ArrayList<>();
-                    organizations.add(Organization.EMPTY);
-                    if (section != null) {
-                        for (Organization org : section.getOrganizations()) {
-                            List<Organization.Position> positions = new ArrayList<>();
-                            positions.add(Organization.Position.EMPTY);
-                            positions.addAll(org.getPositions());
-                            organizations.add(new Organization(org.getLink(), positions));
-                        }
+                for (SectionType type : SectionType.values()) {
+                    AbstractSection section = r.getSection(type);
+                    switch (type) {
+                        case OBJECTIVE:
+                        case PERSONAL:
+                            if (section == null) {
+                                section = SimpleTextSection.EMPTY;
+                            }
+                            break;
+                        case ACHIEVEMENT:
+                        case QUALIFICATIONS:
+                            if (section == null) {
+                                section = BulletedListSection.EMPTY;
+                            }
+                            break;
+                        case EDUCATION:
+                        case EXPERIENCE:
+                            OrganizationSection section1 = (OrganizationSection) section;
+                            List<Organization> organizations = new ArrayList<>();
+                            organizations.add(Organization.EMPTY);
+                            if (section1 != null) {
+                                for (Organization org : section1.getOrganizations()) {
+                                    List<Organization.Position> positions = new ArrayList<>();
+                                    positions.add(Organization.Position.EMPTY);
+                                    positions.addAll(org.getPositions());
+                                    organizations.add(new Organization(org.getLink(), positions));
+                                }
+                            }
+                            section = new OrganizationSection(organizations);
+                            break;
                     }
-                    r.setSection(type, new OrganizationSection(organizations));
+                    r.setSection(type, section);
                 }
             }
             default -> throw new IllegalStateException("Action " + action + " is illegal");
@@ -70,8 +91,13 @@ public class ResumeServlet extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         String uuid = request.getParameter("uuid");
         String fullName = request.getParameter("fullname");
-        Resume r = storage.get(uuid);
-        r.setFullName(fullName);
+        Resume r;
+        if (uuid == null || uuid.length() == 0) {
+            r = new Resume(fullName);
+        } else {
+            r = storage.get(uuid);
+            r.setFullName(fullName);
+        }
         for (ContactType type : ContactType.values()) {
             String value = request.getParameter(type.name());
             if (!HtmlUtil.isEmpty(value)) {
@@ -114,7 +140,12 @@ public class ResumeServlet extends HttpServlet {
                 }
             }
         }
-        storage.update(r);
+        if(uuid == null || uuid.length() == 0){
+            storage.save(r);
+        } else {
+            storage.update(r);
+        }
         response.sendRedirect("resume");
     }
+
 }
