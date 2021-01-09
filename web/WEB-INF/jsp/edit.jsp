@@ -31,18 +31,19 @@
         <c:forEach var="type1" items="<%=SectionType.values()%>">
             <c:set var="section" value="${resume.getSection(type1)}"/>
             <jsp:useBean id="section" type="com.urise.webapp.model.AbstractSection"/>
-
-        <dt>${type1.title}</dt><br>
+            <dt>${type1.title}</dt>
+            <br>
             <c:choose>
                 <c:when test="${type1=='PERSONAL' || type1=='OBJECTIVE'}">
-                    <textarea  name='${type1}' cols=100 rows=3> <%=section%> </textarea><br>
+                    <textarea name='${type1}' cols=100 rows=3><%=section%></textarea><br>
                 </c:when>
                 <c:when test="${type1=='QUALIFICATIONS' || type1=='ACHIEVEMENT'}">
                     <textarea name='${type1}' cols=100
-                              rows=5><%=String.join("\n", ((BulletedListSection) section).getList())%></textarea><br>
+                              rows=5><%=String.join("\n",((BulletedListSection)section).getList())%></textarea><br>
                 </c:when>
                 <c:when test="${type1=='EXPERIENCE' || type1=='EDUCATION'}">
-                    <c:forEach var="org" items="<%=((OrganizationSection) section).getOrganizations()%>" varStatus="counter">
+                    <c:forEach var="org" items="<%=((OrganizationSection)section).getOrganizations()%>"
+                               varStatus="counter">
                         <dl>
                             <dt>Название организации:</dt>
                             <dd><input type="text" name='${type1}' size=100 value="${org.link.name}"></dd>
@@ -58,14 +59,14 @@
                                 <dt>Дата старта работы:</dt>
                                 <dd>
                                     <input type="text" name="${type1}${counter.index}startDate" size=10
-                                           value="<%=pos.getStartDate()%>" >
+                                           value="<%=pos.getStartDate()%>">
                                 </dd>
                             </dl>
                             <dl>
                                 <dt>Дата окончания работы:</dt>
                                 <dd>
                                     <input type="text" name="${type1}${counter.index}endDate" size=10
-                                           value="<%=pos.getEndDate()%>" >
+                                           value="<%=pos.getEndDate()%>">
                             </dl>
                             <dl>
                                 <dt>Должность в организации:</dt>
@@ -85,7 +86,7 @@
         </c:forEach>
         <hr>
         <button type="submit">Сохранить</button>
-        <button onclick="window.history.back()">Отменить</button>
+        <button type="reset" onclick="window.history.back()">Отменить</button>
     </form>
 </section>
 <jsp:include page="fragments/footer.jsp"/>
