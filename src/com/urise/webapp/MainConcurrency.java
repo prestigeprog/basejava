@@ -16,7 +16,7 @@ public class MainConcurrency {
     //private static final Object LOCK = new Object();
     private static final Lock lock = new ReentrantLock();
 
-    private static final ThreadLocal<SimpleDateFormat> threadLocal = new ThreadLocal<>(){
+    private static final ThreadLocal<SimpleDateFormat> threadLocal = new ThreadLocal<SimpleDateFormat>(){
         @Override
         protected SimpleDateFormat initialValue() {
             return new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");

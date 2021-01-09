@@ -35,14 +35,17 @@ public class ResumeServlet extends HttpServlet {
         }
         Resume r;
         switch (action) {
-            case "add" -> r = Resume.EMPTY;
-            case "delete" -> {
+            case "add":
+                r = Resume.EMPTY;
+                break;
+            case "delete":
                 storage.delete(uuid);
                 response.sendRedirect("resume");
                 return;
-            }
-            case "view" -> r = storage.get(uuid);
-            case "edit" -> {
+            case "view":
+                r = storage.get(uuid);
+                break;
+            case "edit":
                 r = storage.get(uuid);
                 for (SectionType type : SectionType.values()) {
                     AbstractSection section = r.getSection(type);
@@ -77,8 +80,9 @@ public class ResumeServlet extends HttpServlet {
                     }
                     r.setSection(type, section);
                 }
-            }
-            default -> throw new IllegalStateException("Action " + action + " is illegal");
+                break;
+            default:
+                throw new IllegalStateException("Action " + action + " is illegal");
         }
         request.setAttribute("resume", r);
         request.getRequestDispatcher(("view".equals(action)) ? "WEB-INF/jsp/view.jsp" : "WEB-INF/jsp/edit.jsp")
@@ -113,9 +117,16 @@ public class ResumeServlet extends HttpServlet {
                 r.getSections().remove(type);
             } else {
                 switch (type) {
-                    case OBJECTIVE, PERSONAL -> r.setSection(type, new SimpleTextSection(value));
-                    case ACHIEVEMENT, QUALIFICATIONS -> r.setSection(type, new BulletedListSection(value.split("\\n")));
-                    case EDUCATION, EXPERIENCE -> {
+                    case OBJECTIVE:
+                    case PERSONAL:
+                        r.setSection(type, new SimpleTextSection(value));
+                        break;
+                    case ACHIEVEMENT:
+                    case QUALIFICATIONS:
+                        r.setSection(type, new BulletedListSection(value.split("\\n")));
+                        break;
+                    case EDUCATION:
+                    case EXPERIENCE:
                         List<Organization> orgs = new ArrayList<>();
                         String[] urls = request.getParameterValues(type.name() + "url");
                         for (int i = 0; i < values.length; i++) {
@@ -136,7 +147,7 @@ public class ResumeServlet extends HttpServlet {
                             }
                         }
                         r.setSection(type, new OrganizationSection(orgs));
-                    }
+                        break;
                 }
             }
         }

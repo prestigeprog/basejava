@@ -28,20 +28,29 @@ public class DataStreamSerializer implements StreamSerializer {
                 dos.writeUTF(type.name());
                 // org -> listOrg-> section
                 switch (type) {
-                    case EDUCATION, EXPERIENCE -> writeWithException(((OrganizationSection) section).getOrganizations(), dos, organization -> {
-                        Link link = organization.getLink();
-                        dos.writeUTF(link.getName());
-                        dos.writeUTF(link.getUrl() == null ? "no website" : link.getUrl());
-                        writeWithException(organization.getPositions(), dos, position -> {
-                            writeDate(position.getStartDate(), dos);
-                            writeDate(position.getEndDate(), dos);
-                            dos.writeUTF(position.getTitle());
-                            dos.writeUTF(position.getDescription() == null ? "no description" : position.getDescription());
-                        });
+                    case EDUCATION:
+                    case EXPERIENCE:
+                        writeWithException(((OrganizationSection) section).getOrganizations(), dos, organization -> {
+                            Link link = organization.getLink();
+                            dos.writeUTF(link.getName());
+                            dos.writeUTF(link.getUrl() == null ? "no website" : link.getUrl());
+                            writeWithException(organization.getPositions(), dos, position -> {
+                                writeDate(position.getStartDate(), dos);
+                                writeDate(position.getEndDate(), dos);
+                                dos.writeUTF(position.getTitle());
+                                dos.writeUTF(position.getDescription() == null ? "no description" : position.getDescription());
+                            });
 
-                    });
-                    case PERSONAL, OBJECTIVE -> dos.writeUTF(((SimpleTextSection) section).getDescription());
-                    case ACHIEVEMENT, QUALIFICATIONS -> writeWithException(((BulletedListSection) section).getList(), dos, dos::writeUTF);
+                        });
+                        break;
+                    case PERSONAL:
+                    case OBJECTIVE:
+                        dos.writeUTF(((SimpleTextSection) section).getDescription());
+                        break;
+                    case ACHIEVEMENT:
+                    case QUALIFICATIONS:
+                        writeWithException(((BulletedListSection) section).getList(), dos, dos::writeUTF);
+                        break;
                 }
             });
         }
@@ -65,7 +74,8 @@ public class DataStreamSerializer implements StreamSerializer {
 
     private AbstractSection readSection(DataInputStream dis, SectionType sectionType) throws IOException {
         switch (sectionType) {
-            case EDUCATION, EXPERIENCE -> {
+            case EDUCATION:
+            case EXPERIENCE:
                 List<Organization> organizations = new ArrayList<>();
                 readWithException(dis, () -> {
                     String name = dis.readUTF();
@@ -85,16 +95,16 @@ public class DataStreamSerializer implements StreamSerializer {
                 });
                 OrganizationSection os = new OrganizationSection(organizations);
                 return os;
-            }
-            case PERSONAL, OBJECTIVE -> {
+            case PERSONAL:
+            case OBJECTIVE:
                 return new SimpleTextSection(dis.readUTF());
-            }
-            case ACHIEVEMENT, QUALIFICATIONS -> {
+            case ACHIEVEMENT:
+            case QUALIFICATIONS:
                 List<String> aq = new ArrayList<>();
                 readWithException(dis, () -> aq.add(dis.readUTF()));
                 return new BulletedListSection(aq);
-            }
-            default -> throw new IllegalStateException();
+            default:
+                throw new IllegalStateException();
         }
     }
 
