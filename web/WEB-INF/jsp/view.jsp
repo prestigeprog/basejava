@@ -32,8 +32,8 @@
                 ${type.title}<br>
             <c:choose>
             <c:when test="${type=='PERSONAL' || type=='OBJECTIVE'}">
-
-        <li><%=((SimpleTextSection)section).getDescription()%></li>
+        <li>
+    <%=((SimpleTextSection)section).getDescription()%></li>
         <br>
         <hr>
         </c:when>

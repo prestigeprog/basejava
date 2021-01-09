@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ page import="com.urise.webapp.model.*" %>
 <%@ page import="com.urise.webapp.util.DateUtil" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -39,7 +39,7 @@
                 </c:when>
                 <c:when test="${type1=='QUALIFICATIONS' || type1=='ACHIEVEMENT'}">
                     <textarea name='${type1}' cols=100
-                              rows=5><%=String.join("\n",((BulletedListSection)section).getList())%></textarea><br>
+                              rows=5><%=String.join("\n", ((BulletedListSection) section).getList())%></textarea><br>
                 </c:when>
                 <c:when test="${type1=='EXPERIENCE' || type1=='EDUCATION'}">
                     <c:forEach var="org" items="<%=((OrganizationSection)section).getOrganizations()%>"
