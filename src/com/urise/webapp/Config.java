@@ -21,7 +21,6 @@ public class Config {
 
     private Config() {
         try (InputStream is = Config.class.getResourceAsStream(PROPS)) {
-            System.out.println(Config.class.getResource("/").getPath());
             Properties props = new Properties();
             props.load(is);
             storageDir = new File(props.getProperty("storage.dir"));
